@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+
+/* Hero Section */
+#home {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../assets/uploads/images/back.jpg'); /* Added linear gradient */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    padding-top: 80px; /* Offset fixed header */
+}
+
+#home h3 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+#home p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+#home .cta-button {
+    background-color: #fff; /* Changed to white */
+    color: #333;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 10px; /* Rounded border */
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+#home .cta-button:hover{
+    background-color: rgb(7, 12, 169);
+    color: #fff;
+    transform: scale(2);
+}
+/* About Section */
+#about {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+#about h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#about p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Features Section */
+#features {
+    padding: 60px 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+#features h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.feature-item {
+    background-color: #fff;
+    padding: 20px;
+    margin: 10px;
+    width: 220px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease; /* Smooth transition for both top and box-shadow */
+    z-index: 1; /* Set a base z-index */
+    position: relative; /* Necessary for using z-index */
+}
+
+.feature-item img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.feature-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 16px;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhance the shadow on hover */
+    z-index: 10; /* Bring the item to the front on hover */
+}
+
+/* Contact Section */
+#contact {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+#contact h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+#contact p {
+    font-size: 18px;
+}
+
+
+
+/* Back to Top Button */
+#back-to-top {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background-color: #666262;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    /*display: none;  Initially hidden */
+    z-index: 1000; /* Ensure it is visible above other content */
+    transition: background-color 0.3 ease;
+}
+
+#back-to-top i {
+    font-size: 20px;
+}
+
+#back-to-top a{
+    color: #f4f4f4;
+}
+#back-to-top:hover{
+    background-color: #252323;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+    }
+
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature-item {
+        width: 90%;
+    }
+
+    .footer-content {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,37 @@
+/* Header */
+header {
+    background-color: #1a1a1a; /* Darker than black */
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end; /* Aligns the navigation list to the top right */
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1000; /* Prevent overlapping */
+    font-family: 'Times New Roman', Times, serif;
+}
+
+header h4 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: auto; /* Pushes the title to the left */
+}
+
+header ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    margin-right: 30px;
+    padding: 0;
+}
+
+header ul li {
+    margin: 0 15px;
+}
+
+header ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}

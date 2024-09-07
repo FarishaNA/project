@@ -1,0 +1,118 @@
+/* ../assets/css/teacher_dashboard.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.classroom-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.classroom {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.classroom a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.classroom .options {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.options .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    right: 0;
+    top: 20px;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.options:hover .dropdown {
+    display: block;
+}
+
+.options a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.options a:hover {
+    background-color: #f0f0f0;
+}
+
+.create-classroom {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-classroom:hover {
+    background-color: #45a049;
+}
+
+.create-classroom:after {
+    content: "+";
+    font-family: FontAwesome;
+    font-weight: bold;
+    color: #fff;
+}
+
+.create-classroom-tooltip {
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    display: none;
+    font-size: 14px;
+}
+
+.create-classroom:hServiceover + .create-classroom-tooltip {
+    display: block;
+}

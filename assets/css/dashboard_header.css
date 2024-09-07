@@ -1,0 +1,129 @@
+/* Common styles for dashboard headers */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+    z-index: 1000; /* Ensure header is above sidebar */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 20px; /* Increased margin */
+}
+
+.logout-btn {
+    padding: 10px 15px;
+    background-color: #2a43e4;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-btn:hover {
+    background-color: #22129e;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-icon {
+    font-size: 24px; /* Increase font size for better visibility */
+    cursor: pointer;
+    color: #333;
+    padding: 5px; /* Add some padding for better click area */
+}
+
+.welcome-message {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 65px; /* Position below the header */
+    left: 0; /* Start with the sidebar partially visible */
+    width: 60px; /* Narrow width for icons only */
+    height: calc(100% - 65px); /* Full height minus header height */
+    background-color: #f7f7f7; /* Light color to match overall page */
+    padding-top: 20px;
+    z-index: 99; /* Ensure it's above other content but below header */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
+    color: #333; /* Dark text color for readability */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 15px; /* Padding for better spacing */
+    text-decoration: none;
+    color: #333; /* Dark text color */
+    font-size: 16px;
+    border-bottom: 1px solid #ddd; /* Light border */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    border-radius: 0 15px 15px 0; /* Rounded corners for hover effect */
+}
+
+.sidebar a span {
+    display: none; /* Hide text by default */
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+.sidebar a:hover {
+    background-color: #e0e0e0; /* Slightly gray hover background */
+}
+
+.sidebar.show a span {
+    display: inline; /* Show text when expanded */
+}
+
+.sidebar.show {
+    width: 250px; /* Full width when expanded */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px; /* Narrower sidebar on smaller screens */
+    }
+
+    .sidebar a {
+        font-size: 14px; /* Smaller font size for sidebar links */
+        padding: 12px 15px; /* Adjust padding for smaller size */
+    }
+
+    .header {
+        padding: 10px; /* Smaller padding in header */
+    }
+
+    .menu-icon {
+        font-size: 20px; /* Slightly smaller menu icon */
+    }
+
+    .user-info span {
+        font-size: 14px; /* Smaller text size for user info */
+    }
+}

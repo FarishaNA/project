@@ -1,0 +1,76 @@
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+h1,p{
+    text-align: center;
+    margin: 10px 0;
+}
+.tabs{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+.tabs button,
+.bottom-buttons button{
+    background: none;
+    border: none;
+    outline: none;
+    padding: 10px 30px;
+    margin: 0 10px;
+    color: #b56b54;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.tabs button i,
+.bottom-buttons i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.tabs button span,
+.bottom-buttons span {
+    font-size: 12px; 
+}
+.tabs button:hover,
+.tabs button:focus,
+.tabs button.active {
+    background-color: #f0f0f0;
+     border-radius: 10px;
+}
+
+.tabs button.active {
+    border-bottom: 2px solid #FF5722; /* Orange-Beige mix color for active tab */
+}
+.tab-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: none;
+    height: calc(100vh - 400px);
+    width: calc(100% - 250px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    background-color: #f5f5f5; 
+    margin: 0 auto;
+}
+#notes {
+    display: block; /* Notes tab content displayed by default */
+}
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding: 20px 0;
+}
+.bottom-buttons button:hover,
+.bottom-buttons button:focus {
+    background-color: #f0f0f0; /* Light gray background on hover/click */
+    border-radius: 10px;
+    border-bottom:2px solid #FF5722;
+}
+
+
