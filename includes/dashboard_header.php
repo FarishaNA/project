@@ -60,10 +60,11 @@
                     <i class="fas fa-book"></i>
                     <span>Assignments</span>
                 </a>
-                <a href="../public/quizzes.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>">
-                    <i class="fas fa-question"></i>
-                    <span>Quizzes</span>
+                <a href="../public/view_quizzes.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>">
+               <i class="fas fa-question"></i>
+                <span>Quizzes</span>
                 </a>
+
             <?php endif; ?>
         <?php elseif ($_SESSION['role'] === 'teacher'): ?>
             <?php if (isset($_SESSION['selected_classroom'])): ?>
@@ -75,13 +76,14 @@
                     <i class="fas fa-book"></i>
                     <span>Assignments</span>
                 </a>
-                <!-- <a href="../public/quizzes_teacher.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>"> -->
-                <a href="../public/create_quiz.php">
-                    <i class="fas fa-question"></i>
-                    <span>Quizzes</span>
+                <a href="../public/view_quizzes.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>">
+                <i class="fas fa-question"></i>
+                <span>Quizzes</span>
                 </a>
+
             <?php endif; ?>
         <?php endif; ?>
+
 
         <a href="../public/feedback.php">
             <i class="fas fa-comments"></i>
