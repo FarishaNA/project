@@ -53,5 +53,47 @@ class Quiz {
         return mysqli_fetch_assoc($result); // Fetch a single row as an associative array
     }
 
+    //check if choice is correct
+    public function checkIfChoiceIsCorrect($choiceId) {
+        $query = "SELECT * FROM choices WHERE choice_id=$choiceId";
+        $result = mysqli_query($this->db, $query);
+        $result = mysqli_fetch_assoc($result);
+        if($result['is_correct']==1)
+           return true;
+        else
+           return false;
+    }
+
+    //save student quiz attempt
+    public function saveStudentQuizAttempt($quizId, $studentId, $score) {
+        $query = "INSERT INTO student_quizzes(quiz_id, student_id, score)
+        VALUES ($quizId, $studentId, $score)";
+        return mysqli_query($this->db, $query);
+    }
+
+    public function getStudentAttempts($quizId) {
+        // Prepare the SQL query
+        $query = "SELECT sa.*, u.username AS student_name
+                  FROM student_quizzes sq
+                  JOIN student_answers sa ON sq.student_id = sa.student_id
+                  JOIN users u ON sa.student_id = u.user_id
+                  WHERE sq.quiz_id = $quizId
+                  GROUP BY sa.student_id";
+    
+        // Execute the query
+        $result = mysqli_query($this->db, $query);
+    
+        // Check if query execution was successful
+        if (!$result) {
+            // Output error information for debugging
+            echo "Query Error: " . mysqli_error($this->db);
+            return [];
+        }
+    
+        // Fetch all results as an associative array
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    
+
 }
 ?>

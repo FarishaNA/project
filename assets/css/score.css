@@ -1,0 +1,53 @@
+/* General body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for centering content */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Score section */
+#score {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#score h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Back link */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Chart container */
+#scoreChart {
+    margin: 0 auto;
+}
