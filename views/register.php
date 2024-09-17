@@ -24,10 +24,10 @@ unset($_SESSION['form_data']);
         <h4>Virtual Study Space</h4>
         <nav>
             <ul>
-                <li><a href="../views/index.html">Home</a></li>
-                <li><a href="../views/index.html#about">About</a></li>
-                <li><a href="../views/index.html#features">Features</a></li>
-                <li><a href="../views/index.html#contact">Contact Us</a></li>
+                <li><a href="../views/index.php">Home</a></li>
+                <li><a href="../views/index.php#about">About</a></li>
+                <li><a href="../views/index.php#features">Features</a></li>
+                <li><a href="../views/index.php#contact">Contact Us</a></li>
             </ul>
         </nav>
     </header>

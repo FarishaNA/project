@@ -19,6 +19,8 @@
     } elseif ($_SESSION['role'] === 'student') {
         $dashboard_link = '../public/student_dashboard.php';
     }
+   
+    $path = $_SESSION['profile_pic_path'];
     ?>
 
     <div class="header">
@@ -26,8 +28,7 @@
             <span class="menu-icon" onclick="toggleSidebar()">☰</span>
             <span class="welcome-message">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
         </div>
-        <div class="user-info">
-            <img src="../assets/uploads/profiles/default_pic.png" alt="Profile" class="profile-pic" onclick="window.location.href='../public/personal_details.php'">
+            <img src="<?php echo htmlspecialchars($path); ?>" alt="Profile" class="profile-pic" onclick="window.location.href='../public/personal_details.php'">
             <button class="logout-btn" onclick="confirmLogout()">Logout</button>
         </div>
     </div>

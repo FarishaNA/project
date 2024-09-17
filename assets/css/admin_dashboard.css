@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #f5e0d4;
 }
 
 .container {
@@ -24,7 +24,7 @@ h1 {
 }
 
 .dashboard-link {
-    background-color: #4CAF50;
+    background-color: #9a6648;
     color: white;
     padding: 15px;
     border-radius: 5px;
@@ -36,7 +36,7 @@ h1 {
 }
 
 .dashboard-link:hover {
-    background-color: #45a049;
+    background-color: #8c5e4f;
 }
 
 .classroom-list, .student-list, .teacher-list {

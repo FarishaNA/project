@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
+        $_SESSION['profile_pic_path']=$user['profile_pic_path'];
 
         if(isset($_SESSION['username'])){
             echo "hello".$_SESSION['username'];

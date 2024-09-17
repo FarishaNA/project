@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../assets/css/components/form.css">
 </head>
 <body>
-    <div class="container">
+    <div class="join-classroom-container"> <!-- Changed class name here -->
         <h1>Join a Classroom</h1>
 
         <?php if (isset($error)): ?>

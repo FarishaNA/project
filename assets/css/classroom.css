@@ -1,21 +1,24 @@
-body{
+body {
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-h1,p{
+
+h1, p {
     text-align: center;
     margin: 10px 0;
 }
-.tabs{
+
+.tabs {
     display: flex;
     justify-content: center;
     margin: 10px 0;
 }
+
 .tabs button,
-.bottom-buttons button{
+.bottom-buttons button {
     background: none;
     border: none;
     outline: none;
@@ -27,6 +30,7 @@ h1,p{
     flex-direction: column;
     align-items: center;
 }
+
 .tabs button i,
 .bottom-buttons i {
     font-size: 24px;
@@ -35,18 +39,20 @@ h1,p{
 
 .tabs button span,
 .bottom-buttons span {
-    font-size: 12px; 
+    font-size: 12px;
 }
+
 .tabs button:hover,
 .tabs button:focus,
 .tabs button.active {
     background-color: #f0f0f0;
-     border-radius: 10px;
+    border-radius: 10px;
 }
 
 .tabs button.active {
-    border-bottom: 2px solid #FF5722; /* Orange-Beige mix color for active tab */
+    border-bottom: 2px solid #FF5722;
 }
+
 .tab-content {
     padding: 20px;
     flex-grow: 1;
@@ -54,23 +60,125 @@ h1,p{
     height: calc(100vh - 400px);
     width: calc(100% - 250px); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    background-color: #f5f5f5; 
+    background-color: #f5e0d4; 
     margin: 0 auto;
+    position: relative;
 }
+
 #notes {
-    display: block; /* Notes tab content displayed by default */
+    display: block;
 }
+
+.notes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.notes-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.notes-list li img, 
+.notes-list li embed {
+    width: 100%;
+    height: 150px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #563226;
+}
+
+.note-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.icon-container a {
+    color: #b56b54;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+
+#add-note-button {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #563226;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 1100;
+}
+
+#upload-note-form {
+    position: absolute; /* Position the form absolutely within .tab-content */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background to cover other content */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    z-index: 1000; /* Ensure the form is above other elements */
+    display: none; /* Hidden by default */
+}
+
+#upload-note-form input[type="text"],
+#upload-note-form input[type="file"] {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#upload-note-form button {
+    padding: 10px;
+    background-color: #b56b54;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#upload-note-form button:hover {
+    background-color: #9e4f3e;
+}
+
+
 .bottom-buttons {
     display: flex;
     justify-content: center;
     margin-top: auto;
     padding: 20px 0;
 }
+
 .bottom-buttons button:hover,
 .bottom-buttons button:focus {
-    background-color: #f0f0f0; /* Light gray background on hover/click */
+    background-color: #f0f0f0;
     border-radius: 10px;
-    border-bottom:2px solid #FF5722;
+    border-bottom: 2px solid #FF5722;
 }
-
-

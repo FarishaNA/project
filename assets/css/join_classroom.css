@@ -1,6 +1,4 @@
-/* join_classroom.css */
-
-.container {
+.join-classroom-container {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
@@ -9,19 +7,21 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+.join-classroom-container h1 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
 }
 
-label {
+.join-classroom-container label {
     display: block;
     margin-bottom: 10px;
     color: #555;
 }
 
-select, textarea, input[type="text"] {
+.join-classroom-container select,
+.join-classroom-container textarea,
+.join-classroom-container input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -29,7 +29,7 @@ select, textarea, input[type="text"] {
     border-radius: 4px;
 }
 
-button {
+.join-classroom-container button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -40,6 +40,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.join-classroom-container button:hover {
     background-color: #0056b3;
 }

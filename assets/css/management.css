@@ -1,0 +1,67 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #f5e0d4;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.classroom-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.classroom {
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    height: 25px;
+    text-align: center;
+    background-color: #9a6648;
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.classroom a {
+    text-decoration: none;
+}
+
+.icons{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.icon-btn {
+    font-size: 13px; 
+}
+
+.icon-btn i{
+    color: #e4be8c; 
+}
+
+.classroom:hover {
+    background-color: #8c5e4f;
+}
+
+#dlt i:hover{
+    color: rgb(247, 6, 6);
+    transform:scale(1.5);
+}
+
+#pencil i:hover{
+    color: rgb(236, 236, 245);
+    transform:scale(1.5);
+}

@@ -23,12 +23,12 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     <div class="container">
         <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
         <div class="dashboard-links">
-            <a href="classroom_management.php" class="dashboard-link">View All Classrooms</a>
-            <a href="student_management.php" class="dashboard-link">View All Students</a>
-            <a href="teacher_management.php" class="dashboard-link">View All Teachers</a>
-            <a href="create_classroom.php" class="dashboard-link">Add New Classroom</a>
-            <a href="create_user.php?role=student" class="dashboard-link">Add New Student</a>
-            <a href="create_user.php?role=teacher" class="dashboard-link">Add New Teacher</a>
+        <a href="management.php?type=classrooms" class="dashboard-link">View All Classrooms</a>
+        <a href="management.php?type=students" class="dashboard-link">View All Students</a>
+        <a href="management.php?type=teachers" class="dashboard-link">View All Teachers</a>
+        <a href="create_classroom.php" class="dashboard-link">Add New Classroom</a>
+        <a href="create_user.php?role=student" class="dashboard-link">Add New Student</a>
+        <a href="create_user.php?role=teacher" class="dashboard-link">Add New Teacher</a>
         </div>
     </div>
 </body>

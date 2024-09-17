@@ -11,22 +11,19 @@
     z-index: 1000; /* Ensure header is above sidebar */
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-}
 
 .profile-pic {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
-    margin-right: 20px; /* Increased margin */
+    margin-left: 80%; /* Increased margin */
+    margin-right: 10px;
 }
 
 .logout-btn {
     padding: 10px 15px;
-    background-color: #2a43e4;
+    background-color: #8c5e4f;
     color: white;
     border: none;
     border-radius: 3px;
@@ -35,7 +32,7 @@
 }
 
 .logout-btn:hover {
-    background-color: #22129e;
+    background-color:  #6e4a3e;
 }
 
 .menu {
@@ -52,7 +49,7 @@
 
 .welcome-message {
     margin-left: 10px;
-    font-size: 16px;
+    font-size: 15px;
     color: #333;
 }
 
