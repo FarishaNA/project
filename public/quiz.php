@@ -1,8 +1,7 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/Quiz.php';
-
-session_start();
+include '../includes/back_button.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../views/login.php');
@@ -10,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $quizId = isset($_GET['quiz_id']) ? intval($_GET['quiz_id']) : 0;
+$studentId = $_SESSION['user_id'];
 $quizModel = new Quiz();
 
 $quiz = $quizModel->getQuizById($quizId);
@@ -21,8 +21,9 @@ if (!$quiz) {
 
 $questions = $quizModel->getQuestionsForQuiz($quizId);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
-    $studentId = $_SESSION['user_id'];
+$attemptsCount = $quizModel->getStudentAttemptsCount($quizId, $studentId);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student' && $attemptsCount <= 3) {
     $totalScore = 0;
     $totalQuestions = count($questions);
 
@@ -31,17 +32,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
         if ($isCorrect) {
             $totalScore++;
         }
-        $quizModel->saveStudentAnswer($studentId, $questionId, $choiceId);
     }
 
-    $scorePercentage = ($totalScore / $totalQuestions) * 100;
+    // Save student quiz attempt and get the attempt_id
+    $attemptId = $quizModel->saveStudentQuizAttempt($quizId, $studentId, $totalScore);
 
-    // Save student quiz attempt
-    $quizModel->saveStudentQuizAttempt($quizId, $studentId, $totalScore);
+    // Now save each student's answer with the attempt_id
+    foreach ($_POST['answers'] as $questionId => $choiceId) {
+        $quizModel->saveStudentAnswer($studentId, $quizId, $questionId, $choiceId, $attemptId);
+    }
 
     // Redirect to score.php with results as query parameters
     header("Location: score.php?score=$totalScore&total=$totalQuestions");
     exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'teacher') {
+    // Handle the form submission for editing questions and choices
+    foreach ($_POST['questions'] as $questionId => $questionData) {
+        $questionText = $questionData['text'];
+        $choices = $questionData['choices'];
+
+        // Update the question
+        $quizModel->updateQuestion($questionId, $questionText);
+
+        // Update the choices
+        foreach ($choices as $choiceData) {
+            $choiceId = $choiceData['id'];
+            $choiceText = $choiceData['text'];
+            $quizModel->updateChoice($choiceId, $choiceText);
+        }
+    }
+
 }
 ?>
 
@@ -53,12 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
     <title><?php echo htmlspecialchars($quiz['quiz_title']); ?></title>
     <link rel="stylesheet" href="../assets/css/quiz.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script>
-        function toggleEdit(elementId) {
-            const editContainer = document.getElementById(elementId);
-            editContainer.style.display = editContainer.style.display === 'none' ? 'block' : 'none';
-        }
-    </script>
 </head>
 <body>
     <h1><?php echo htmlspecialchars($quiz['quiz_title']); ?></h1>
@@ -66,10 +82,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
 
     <?php if ($_SESSION['role'] == 'student'): ?>
         <!-- Student View -->
+        <p>Attempt : <?php echo $attemptsCount+1; ?>/3</p>
         <form method="POST" action="">
             <?php foreach ($questions as $question): ?>
                 <div class="question-container">
-                    <h3><?php echo htmlspecialchars($question['question_text']); ?></h3>
+                    <h4><?php echo htmlspecialchars($question['question_text']); ?></h4>
                     <?php 
                     $choices = $quizModel->getChoicesForQuestion($question['question_id']);
                     foreach ($choices as $choice): ?>
@@ -83,47 +100,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
                 </div>
             <?php endforeach; ?>
             <br>
+            <?php if ($attemptsCount < 3): ?>
             <input type="submit" value="Submit Quiz">
+            <?php else: ?>
+                    <p>You have reached the maximum number of attempts for this quiz.</p>
+            <?php endif; ?>
         </form>
     <?php elseif ($_SESSION['role'] == 'teacher'): ?>
         <!-- Teacher View -->
-        <div class="edit-section">
-            <h2>Edit Questions and Choices</h2>
+        <form method="POST" action="">
             <?php foreach ($questions as $question): ?>
-                <div class="question">
-                    <h3>
-                        <?php echo htmlspecialchars($question['question_text']); ?>
-                        <button type="button" class="edit-button" onclick="toggleEdit('edit-container-<?php echo $question['question_id']; ?>')">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                    </h3>
-                    <div id="edit-container-<?php echo $question['question_id']; ?>" class="edit-container" style="display:none;">
-                        <form method="POST" action="update_question.php">
-                            <input type="hidden" name="question_id" value="<?php echo $question['question_id']; ?>">
-                            <input type="text" name="question_text" value="<?php echo htmlspecialchars($question['question_text']); ?>" required>
-                            <button type="submit" class="edit-button"><i class="fas fa-save"></i></button>
-                        </form>
-                    </div>
+                <div class="question-container">
+                    <h4><?php echo htmlspecialchars($question['question_text']); ?></h4>
                     <?php 
                     $choices = $quizModel->getChoicesForQuestion($question['question_id']);
                     foreach ($choices as $choice): ?>
                         <div class="choice">
-                            <p><?php echo htmlspecialchars($choice['choice_text']); ?></p>
-                            <button type="button" class="edit-button" onclick="toggleEdit('edit-choice-container-<?php echo $choice['choice_id']; ?>')">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <div id="edit-choice-container-<?php echo $choice['choice_id']; ?>" class="edit-container" style="display:none;">
-                                <form method="POST" action="update_choice.php">
-                                    <input type="hidden" name="choice_id" value="<?php echo $choice['choice_id']; ?>">
-                                    <input type="text" name="choice_text" value="<?php echo htmlspecialchars($choice['choice_text']); ?>" required>
-                                    <button type="submit" class="edit-button"><i class="fas fa-save"></i></button>
-                                </form>
-                            </div>
+                            <label>
+                                <input type="radio" disabled>
+                                <?php echo htmlspecialchars($choice['choice_text']); ?>
+                            </label>
                         </div>
                     <?php endforeach; ?>
+                    <button type="button" id="edit-button" onclick="toggleEdit('edit-container-<?php echo $question['question_id']; ?>')">Edit</button>
+                    <div id="edit-container-<?php echo $question['question_id']; ?>" class="edit-container" style="display:none;">
+                        <h5>Edit Question</h5>
+                        <input type="hidden" name="questions[<?php echo $question['question_id']; ?>][id]" value="<?php echo $question['question_id']; ?>">
+                        <input type="text" name="questions[<?php echo $question['question_id']; ?>][text]" value="<?php echo htmlspecialchars($question['question_text']); ?>" required>
+                        <h5>Choices</h5>
+                        <?php foreach ($choices as $choice): ?>
+                            <div class="edit-choice">
+                                <input type="hidden" name="questions[<?php echo $question['question_id']; ?>][choices][<?php echo $choice['choice_id']; ?>][id]" value="<?php echo $choice['choice_id']; ?>">
+                                <input type="text" name="questions[<?php echo $question['question_id']; ?>][choices][<?php echo $choice['choice_id']; ?>][text]" value="<?php echo htmlspecialchars($choice['choice_text']); ?>" required>
+                            </div>
+                        <?php endforeach; ?>
+                        <button type="submit">Save Changes</button>
+                    </div>
                 </div>
             <?php endforeach; ?>
-        </div>
+            <button type="button" id="final-sub" onclick="window.location.href='view_quizzes.php'">Save & View Quizzes</button>
+        </form>
 
         <div class="attempts">
             <h2>Student Attempts</h2>
@@ -141,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
                         <tr>
                             <td><?php echo htmlspecialchars($attempt['student_name']); ?></td>
                             <td><?php echo htmlspecialchars($attempt['score']); ?></td>
-                            <td><?php echo htmlspecialchars($attempt['attempt_time']); ?></td>
+                            <td><?php echo htmlspecialchars($attempt['attempted_at']); ?></td>
                             <td><?php echo $attempt['late_attempt'] ? 'Yes' : 'No'; ?></td>
                         </tr>
                     <?php endforeach; ?>
@@ -151,5 +167,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'student') {
             <?php endif; ?>
         </div>
     <?php endif; ?>
+
+    <script>
+        function toggleEdit(containerId) {
+            var container = document.getElementById(containerId);
+            if (container.style.display === "none" || container.style.display === "") {
+                container.style.display = "block";
+            } else {
+                container.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

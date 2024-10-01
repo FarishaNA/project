@@ -12,7 +12,6 @@ class User {
 
     // Create a new user
     public function createUser($username, $email, $password, $role) {
-        // Simple query without escaping, suitable for learning purposes
         $query = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$password', '$role')";
         return $this->db->query($query);
     }
@@ -60,5 +59,31 @@ class User {
         $result = $this->db->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+
+    // Delete a user
+    public function deleteUser($id) {
+        $query = "DELETE FROM users WHERE user_id = $id";
+        return $this->db->query($query);
+    }
+
+    // Update user
+    public function updateUser($id, $name, $email, $password = null) {
+        $query = "UPDATE users SET username = '$name', email = '$email'";
+        if ($password !== null) {
+            $query .= ", password = '$password'";
+        }
+        $query .= " WHERE user_id = $id";
+        return $this->db->query($query);
+    }
+
+    //Get students of each classroom
+    public function getStudentsByClassroom($classroomId) {
+        $query = "SELECT * FROM students WHERE classroom_id = $classroomId";
+        $result = mysqli_query($this->db, $query);
+        $students = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $students;
+    }
+
+
 }
 ?>

@@ -73,7 +73,7 @@
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span>Classroom Overview</span>
                 </a>
-                <a href="../public/assignments_teacher.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>">
+                <a href="../public/assignments.php?classroom=<?php echo $_SESSION['selected_classroom']; ?>">
                     <i class="fas fa-book"></i>
                     <span>Assignments</span>
                 </a>

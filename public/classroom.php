@@ -80,7 +80,7 @@ $notes = $noteModel->getNotesByClassroomId($classroomId);
                                 <a href="../public/edit_note.php?id=<?php echo $note['note_id']; ?>" class="edit-icon" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="../public/delete_note.php?id=<?php echo $note['note_id']; ?>" class="delete-icon" title="Delete" onclick="return confirm('Are you sure you want to delete this note?')">
+                                <a href="delete_note.php?id=<?php echo $note['note_id']; ?>" class="delete-icon" title="Delete" onclick="return confirm('Are you sure you want to delete this note?')">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             <?php endif; ?>

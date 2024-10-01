@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5e0d4;
+}
+
+.container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f2f2f2;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #222;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.chart-container {
+    width: 45%;
+    margin: 10px 0;
+}
+
+.students-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.student-card {
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.student-header {
+    border-bottom: 1px solid #d9d9d9;
+    margin-bottom: 10px;
+}
+
+.student-header h3 {
+    margin: 0;
+    color: #6f4e37;
+}
+
+.student-body .stat {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.student-body .stat i {
+    margin-right: 10px;
+    color: #6f4e37;
+}
+
+.student-body .stat p {
+    margin: 0;
+    color: #333;
+}

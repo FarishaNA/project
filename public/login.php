@@ -6,6 +6,12 @@ require_once '../models/User.php'; // Include the User model
 
 session_start();
 
+session_unset();
+
+session_destroy();
+
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usernameOrEmail = $_POST['email'];
     $password = $_POST['password'];

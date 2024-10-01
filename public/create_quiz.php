@@ -74,10 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['quiz_id'] = null;
         $quizCreated = false;
         $success = "Quiz created successfully and submitted!";
+
+        header("Location: ../public/view_quizzes.php?classroom=$classroom_id");
+        exit();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Create Quiz</title>
     <script>
         function confirmSubmit() {
-            return confirm("Are you sure there are no more questions to add?");
+            if (confirm("Are you sure there are no more questions to add?")) {
+                window.location.href = "view_quizzes.php"; 
+            }
         }
     </script>
     <link rel="stylesheet" href="../assets/css/components/form.css">
@@ -137,8 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="number" id="correct_choice" name="correct_choice" min="1" max="4" required><br><br>
 
                 <input type="submit" name="add_question" value="Add Question">
-                <input type="submit" name="final_submit" value="Submit Quiz" onclick="return confirmSubmit();">
             </form>
+            <button onclick="confirmSubmit()">Submit Quiz</button>
         </div>
     <?php endif; ?>
 

@@ -21,20 +21,14 @@ if ($type === 'students') {
     $userModel = new User();
     $items = $userModel->getAllStudents();
     $title = "Student Management";
-    $updateUrl = 'update_student.php';
-    $deleteUrl = 'delete_student.php';
 } elseif ($type === 'teachers') {
     $userModel = new User();
     $items = $userModel->getAllTeachers();
     $title = "Teacher Management";
-    $updateUrl = 'update_teacher.php';
-    $deleteUrl = 'delete_teacher.php';
 } elseif ($type === 'classrooms') {
     $classroomModel = new Classroom();
     $items = $classroomModel->getAllClassrooms();
     $title = "Classroom Management";
-    $updateUrl = 'update_classroom.php';
-    $deleteUrl = 'delete_classroom.php';
 } else {
     echo "Invalid management type.";
     exit();
@@ -69,13 +63,13 @@ if ($type === 'students') {
                     }
                     ?>
                     <div class="icons">
-                        <a href="<?php echo $updateUrl . '?id=' . $id; ?>" class="icon-btn" id="pencil">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <a href="<?php echo $deleteUrl . '?id=' . $id; ?>" class="icon-btn" id="dlt" onclick="return confirm('Are you sure you want to delete this?');">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </div>
+                    <a href="manage_action.php?action=up&id=<?php echo $id; ?>&type=<?php echo $type; ?>" class="icon-btn" id="pencil">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <a href="manage_action.php?action=dlt&id=<?php echo $id; ?>&type=<?php echo $type; ?>" class="icon-btn" id="dlt" onclick="return confirm('Are you sure you want to delete this?');">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
                 </div>
             <?php endforeach; ?>
         </div>

@@ -9,7 +9,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Virtual Study Space</title>
     <link rel="stylesheet" href="../assets/css/components/header.css"> 
-    <link rel="stylesheet" href="../assets/css/components/form.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="../assets/css/reglog.css"> <!-- Link to your CSS file -->
 </head>
 <body>
     <header>

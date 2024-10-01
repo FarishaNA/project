@@ -1,15 +1,16 @@
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5e0d4; /* Background matching the overall style */
     margin: 0;
     padding: 0;
 }
+
 #chat-container {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -17,98 +18,117 @@ body {
     height: 80vh;
     overflow: hidden;
 }
+
 #messages {
     flex: 1;
     overflow-y: auto;
-    border: 1px solid #ccc;
     padding: 10px;
     background-color: #fafafa;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
+
+.date-separator {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 10px 0;
+    font-style: italic;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+}
+
+.my-message {
+    background-color: #9a6648; /* Message background for sender */
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.other-message {
+    background-color: #e0e0e0; /* Message background for others */
+    color: black;
+    align-self: flex-start;
+}
+
+.message-sender {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.my-message .message-sender {
+    text-align: right;
+}
+
+.other-message .message-sender {
+    text-align: left;
+}
+
+.message-footer {
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-message {
+    background: none;
+    border: none;
+    color: #e65e5e; /* More visible delete button */
+    cursor: pointer;
+}
+
+.delete-message:hover {
+    color: #ff3333; /* Darker color on hover */
+}
+
 #message-form {
     display: flex;
     margin-top: 10px;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 #message-input {
     flex: 1;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-radius: 30px;
+    background-color: #f0f0f0;
     margin-right: 10px;
+    outline: none;
+    font-size: 14px;
 }
+
 #send-message {
-    padding: 10px;
-    background-color: #007BFF;
+    padding: 10px 20px;
+    background-color: #9a6648; /* Button matches primary color */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 30px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: background-color 0.3s;
 }
+
 #send-message:hover {
-    background-color: #0056b3;
-}
-.message {
-    display: flex;
-    margin-bottom: 10px;
-}
-.my-message {
-    justify-content: flex-end;
-}
-.my-message .message-content {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px;
-    border-radius: 15px 15px 0 15px;
-    max-width: 60%;
-    position: relative;
-}
-.my-message .message-content::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: -10px;
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-    border-left-color: #007BFF;
-    border-top: 10px solid transparent;
-    border-bottom: 0;
-}
-.my-message .message-sender {
-    text-align: right;
-    font-size: 0.8em;
-    color: #666;
-}
-.other-message {
-    justify-content: flex-start;
-}
-.other-message .message-content {
-    background-color: #e0e0e0;
-    color: black;
-    padding: 10px;
-    border-radius: 15px 15px 15px 0;
-    max-width: 60%;
-    position: relative;
-}
-.other-message .message-content::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -10px;
-    width: 0;
-    height: 0;
-    border: 10px solid transparent;
-    border-right-color: #e0e0e0;
-    border-top: 10px solid transparent;
-    border-bottom: 0;
-}
-.other-message .message-sender {
-    text-align: left;
-    font-size: 0.8em;
-    color: #666;
+    background-color: #8c5e4f; /* Darker hover color */
 }

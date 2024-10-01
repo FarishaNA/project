@@ -1,7 +1,7 @@
 <?php
 require_once '../config/database.php';
 require_once '../models/Quiz.php';
-include '../includes/dashboard_header.php';
+include '../includes/back_button.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../views/login.php');
@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $quiz = new Quiz();
-$classroomId = isset($_GET['classroom']) ? intval($_GET['classroom']) : 0; // Validate and sanitize classroomId
+$classroomId = isset($_SESSION['selected_classroom']) ? intval($_SESSION['selected_classroom']) : 0; 
 $quizzes = $quiz->getQuizForClassroom($classroomId);
 
 ?>
@@ -21,7 +21,7 @@ $quizzes = $quiz->getQuizForClassroom($classroomId);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom Quizzes</title>
     <link rel="stylesheet" href="../assets/css/student_dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../assets/font-awesome/css/all.min.css">
 </head>
 <body>
 

@@ -37,23 +37,11 @@ class Classroom {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    // Update a classroom's details
-    public function updateClassroom($classroomId, $teacherId, $name, $description) {
-        $query = "UPDATE classrooms SET classroom_name = '$name', description = '$description' WHERE classroom_id = $classroomId AND teacher_id = $teacherId";
-        return mysqli_query($this->db, $query);
-    }
-
-    // Delete a classroom
-    public function deleteClassroom($classroomId, $teacherId) {
-        $query = "DELETE FROM classrooms WHERE classroom_id = $classroomId AND teacher_id = $teacherId";
-        return mysqli_query($this->db, $query);
-    }
-
-    // Admin: Delete any classroom by ID (no teacher check)
-    public function adminDeleteClassroom($classroomId) {
-        $query = "DELETE FROM classrooms WHERE classroom_id = $classroomId";
-        return mysqli_query($this->db, $query);
-    }
+    // // Update a classroom's details
+    // public function updateClassroom($classroomId, $teacherId, $name, $description) {
+    //     $query = "UPDATE classrooms SET classroom_name = '$name', description = '$description' WHERE classroom_id = $classroomId AND teacher_id = $teacherId";
+    //     return mysqli_query($this->db, $query);
+    // }
 
     // Retrieve students by classroom ID
     public function getStudentsByClassroomId($classroomId) {
@@ -73,7 +61,6 @@ class Classroom {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    // Join a classroom
     public function joinClassroom($studentId, $classroomId) {
         // Check if the student is already in the classroom
         $query = "SELECT * FROM students WHERE user_id = $studentId AND classroom_id = $classroomId";
@@ -82,12 +69,23 @@ class Classroom {
         if (mysqli_num_rows($result) > 0) {
             return false; // Student is already in the classroom
         }
-
-        // Insert the student into the classroom
-        $query = "INSERT INTO students (user_id, classroom_id) VALUES ($studentId, $classroomId)";
-        return mysqli_query($this->db, $query);
+    
+        // Retrieve the student's username from the users table
+        $usernameQuery = "SELECT username FROM users WHERE user_id = $studentId";
+        $usernameResult = mysqli_query($this->db, $usernameQuery);
+    
+        if ($usernameResult && mysqli_num_rows($usernameResult) > 0) {
+            $row = mysqli_fetch_assoc($usernameResult);
+            $username = $row['username'];
+    
+            // Insert the student into the classroom with their name
+            $insertQuery = "INSERT INTO students (user_id, classroom_id, name) VALUES ($studentId, $classroomId, '$username')";
+            return mysqli_query($this->db, $insertQuery);
+        } else {
+            return false; // User not found
+        }
     }
-
+    
     // Retrieve all classrooms for a specific student
     public function getClassroomsForStudent($studentId) {
         $query = "SELECT c.classroom_id, c.classroom_name FROM classrooms c 
@@ -95,6 +93,18 @@ class Classroom {
                   WHERE s.user_id = $studentId";
         $result = mysqli_query($this->db, $query);
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+
+      // Delete a classroom
+      public function deleteClassroom($id) {
+        $query = "DELETE FROM classrooms WHERE classroom_id = $id";
+        return $this->db->query($query);
+    }
+
+    // Update classroom
+    public function updateClassroom($id, $name, $description) {
+        $query = "UPDATE classrooms SET classroom_name = '$name', description = '$description' WHERE classroom_id = $id";
+        return $this->db->query($query);
     }
 }
 ?>

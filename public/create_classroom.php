@@ -31,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            $error = 'Teacher not found.';
     }
     else{
-        if(!$user->getUserByUsername($teacherId))
 
           $error = 'Teacher not found.';
     } 
@@ -82,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <textarea id="description" name="description" rows="4" required></textarea><br>
             
             <?php if ($_SESSION['role'] == "admin"): ?>
-                <label for="teacher">Teacher name or Id</label>
+                <label for="teacher">Teacher Id</label>
                 <input type="text" id="teacher" name="teacher" required><br>
             <?php endif; ?>
 
