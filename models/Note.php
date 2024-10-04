@@ -49,4 +49,12 @@ class Note {
         $stmt->bind_param('si', $newTitle, $noteId);
         return $stmt->execute();
     }
+
+      // Update a note's title and file path
+      public function updateNote($noteId, $newTitle, $newFilePath) {
+        $query = "UPDATE notes SET note_title = ?, note_file_path = ? WHERE note_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('ssi', $newTitle, $newFilePath, $noteId);
+        return $stmt->execute();
+    }
 }

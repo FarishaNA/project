@@ -1,39 +1,44 @@
-/* Authentication (Form) */
+/* Base body styling */
 body {
-    background-color: #f5e0d4;
     margin: 0;
     padding: 0;
+    background-color: #f5e0d4;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Full height for body */
+    min-height: 100vh;
 }
 
-main {
-    flex: 1; /* Allows the main content to grow */
-    padding: 20px;
-    margin-top: 80px; /* Adjust margin to account for fixed header */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
+/* Container for both forms and dashboard items */
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Ensures center alignment */
+    padding: 20px;
     background-color: #fff;
-    padding: 30px;
-    border: 2px solid #ddd; /* Visible border around the form */
-    border-radius: 12px; /* Rounded corners */
-    width: auto; /* Adjust the width to fit the content */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-    margin: 0 auto; /* Centers the form */
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    width: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    max-height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
-.container h2 {
+/* Heading style */
+h1, h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px 0;
     font-size: 24px;
     color: #333;
 }
 
+/* Form styling */
 form {
     display: flex;
     flex-direction: column;
@@ -45,50 +50,35 @@ label {
     color: #333;
 }
 
-input,
-select {
+input, select {
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #2d2929;
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px;
     font-size: 16px;
-    transition: border-color 0.3s; /* Smooth border color transition */
-    width: 100%; /* Ensure inputs take full width within container */
-    box-sizing: border-box; /* Include padding and border in element's width */
+    transition: border-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-input:focus,
-select:focus {
-    border-color: #25272a; /* Highlight border color on focus */
-    outline: none; /* Remove default focus outline */
+input:focus, select:focus {
+    border-color: #25272a;
+    outline: none;
 }
 
-button {
+/* Buttons */
+button, .btn {
     padding: 12px;
-    background-color: #2c3034; /* Darker shade for the button */
-    color: #fff;
+    background-color: #9a6648;
+    color: white;
     border: none;
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s; /* Smooth background color transition */
+    transition: background-color 0.3s, color 0.3s;
 }
 
-button:hover {
-    background-color: #131414; /* Even darker shade on hover */
-    color: white;
+button:hover, .btn:hover {
+    background-color: #8c5e4f;
 }
 
-p {
-    text-align: center;
-}
-
-p a {
-    color: #242628;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-p a:hover {
-    text-decoration: underline;
-}

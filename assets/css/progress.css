@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5e0d4; /* Matches classroom overview */
+}
+
+.container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f2f2f2; /* Light background for content area */
+    border: 1px solid #d9d9d9; /* Subtle border */
+    border-radius: 6px; /* Rounded corners */
+    box-sizing: border-box; /* Ensures padding/borders included in total width */
+}
+
+h1, h2 {
+    text-align: center; /* Centered titles */
+    color: #222; /* Dark color for text */
+}
+
+.charts-container {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-around; /* Space between charts */
+    flex-wrap: wrap; /* Wrap to next line on smaller screens */
+    margin-bottom: 20px; /* Margin below charts */
+}
+
+.chart-container {
+    width: 45%; /* Each chart takes 45% of the container */
+    margin: 10px 0; /* Margin above and below each chart */
+}
+
+.chart-container h2 {
+    margin-bottom: 10px; /* Margin below chart title */
+    color: #6f4e37; /* Consistent title color */
+}
+
+.students-container {
+    display: flex; /* Flexbox layout for student cards */
+    flex-wrap: wrap; /* Allow wrapping of cards */
+    gap: 15px; /* Space between cards */
+    justify-content: center; /* Center alignment */
+}
+
+.student-card {
+    background: #ffffff; /* White background for cards */
+    border: 1px solid #d9d9d9; /* Subtle border around cards */
+    border-radius: 6px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    width: 300px; /* Fixed width for cards */
+    margin: 10px; /* Margin around cards */
+    padding: 15px; /* Inner padding */
+    box-sizing: border-box; /* Includes padding/borders in width */
+}
+
+.student-header {
+    border-bottom: 1px solid #d9d9d9; /* Separator below header */
+    margin-bottom: 10px; /* Space below header */
+}
+
+.student-header h3 {
+    margin: 0; /* Remove default margin */
+    color: #6f4e37; /* Consistent color for student names */
+}
+
+.student-body .stat {
+    display: flex; /* Flexbox for stat items */
+    align-items: center; /* Center align items */
+    margin-bottom: 10px; /* Space below each stat item */
+}
+
+.student-body .stat i {
+    margin-right: 10px; /* Space between icon and text */
+    color: #6f4e37; /* Icon color */
+}
+
+.student-body .stat p {
+    margin: 0; /* Remove default margin */
+    color: #333; /* Dark color for text */
+}

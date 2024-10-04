@@ -1,9 +1,9 @@
 <?php
 
-session_start();
 require_once '../config/database.php';
 require_once '../models/User.php';
 require_once '../models/Classroom.php';
+include '../includes/back_button.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header('Location: ../views/login.php');
@@ -87,8 +87,10 @@ if ($action === 'up') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update <?php echo $type === 'classrooms' ? 'Classroom' : 'User'; ?></title>
+    <link rel="stylesheet" href="../assets/css/components/form.css">
 </head>
 <body>
+<div class="container">
     <h1>Update <?php echo $type === 'classrooms' ? 'Classroom' : 'User'; ?></h1>
 
     <form action="" method="POST">
@@ -111,7 +113,8 @@ if ($action === 'up') {
             <textarea name="description" required><?php echo isset($item['description']) ? htmlspecialchars($item['description']) : ''; ?></textarea><br>
         <?php endif; ?>
 
-        <input type="submit" value="Update">
+        <input type="submit" value="Update" class="btn">
     </form>
+</div>
 </body>
 </html>

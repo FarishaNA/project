@@ -10,6 +10,8 @@
 <body>
     <?php
     session_start();
+    require '../models/Notification.php';
+    
     $dashboard_link = '';
 
     if ($_SESSION['role'] === 'admin') {
@@ -31,6 +33,10 @@
             <img src="<?php echo htmlspecialchars($path); ?>" alt="Profile" class="profile-pic" onclick="window.location.href='../public/personal_details.php'">
             <button class="logout-btn" onclick="confirmLogout()">Logout</button>
         </div>
+        <!-- <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+            <span id="unread-count" class="badge"><?php echo $unreadCount; ?></span>
+        </div> -->
     </div>
 
     <div id="sidebar" class="sidebar">

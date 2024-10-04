@@ -63,7 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Create Classroom</title>
     <link rel="stylesheet" href="../assets/css/teacher_dashboard.css">
     <link rel="stylesheet" href="../assets/css/components/form.css">
-    <link rel="stylesheet" href="../assets/css/form_center.css">
 </head>
 <body>
     <div class="container">
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="teacher" name="teacher" required><br>
             <?php endif; ?>
 
-            <button type="submit">Create Classroom</button>
+            <button type="submit" class="btn">Create Classroom</button>
         </form>
     </div>
 </body>

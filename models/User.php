@@ -85,5 +85,10 @@ class User {
     }
 
 
+    public function getAllUsers() {
+        $query = "SELECT user_id, username, role FROM users"; // Only fetch necessary fields
+        $result = $this->db->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC); // Return as an associative array
+    }
 }
 ?>

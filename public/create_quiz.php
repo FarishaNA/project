@@ -1,8 +1,7 @@
 <?php 
 require_once '../config/database.php';
 require_once '../models/Quiz.php';
-
-session_start();
+include '../includes/back_button.php';
 
 // Only teachers can access this page
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'teacher') {
@@ -94,7 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </script>
     <link rel="stylesheet" href="../assets/css/components/form.css">
-    <link rel="stylesheet" href="../assets/css/form_center.css">
 </head>
 <body>
 
@@ -115,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="quiz_date">Quiz Date:</label>
                 <input type="date" id="quiz_date" name="quiz_date" required><br><br>
 
-                <input type="submit" value="Create Quiz">
+                <input type="submit" value="Create Quiz" class="btn">
             </form>
         </div>
     <?php else: ?>

@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_assignment']))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Assignment</title>
     <link rel="stylesheet" href="../assets/css/components/form.css">
-    <link rel="stylesheet" href="../assets/css/form_center.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -76,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_assignment']))
         <label for="due_date">Due Date:</label>
         <input type="date" id="due_date" name="due_date" required>
 
-        <button type="submit" name="create_assignment" class="submit-button">Create Assignment</button>
+        <button type="submit" name="create_assignment" class="btn">Create Assignment</button>
     </form>
 </div>
 
