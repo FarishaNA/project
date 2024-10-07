@@ -52,6 +52,29 @@
     font-size: 15px;
     color: #333;
 }
+.notification-container {
+    position: absolute;
+    display: flex;
+    align-items:  center;
+    z-index: 9999;
+    top: 25px;
+    margin-left: 85%;
+}
+.notification-container i {
+    color: #333;
+    font-size: 17px;
+}
+.notification-badge {
+    position: absolute; 
+    top: -10px; 
+    right: -15px; 
+    background-color: red; 
+    color: white; 
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
 
 /* Sidebar styles */
 .sidebar {
@@ -100,6 +123,7 @@
 .sidebar.show {
     width: 250px; /* Full width when expanded */
 }
+
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

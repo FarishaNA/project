@@ -11,7 +11,10 @@
     <?php
     session_start();
     require '../models/Notification.php';
-    
+
+    $notificationModel = new Notification();
+
+    $unread_count = $notificationModel->countUnreadNotifications($_SESSION['user_id']);
     $dashboard_link = '';
 
     if ($_SESSION['role'] === 'admin') {
@@ -33,10 +36,14 @@
             <img src="<?php echo htmlspecialchars($path); ?>" alt="Profile" class="profile-pic" onclick="window.location.href='../public/personal_details.php'">
             <button class="logout-btn" onclick="confirmLogout()">Logout</button>
         </div>
-        <!-- <div class="notification-icon">
-            <i class="fas fa-bell"></i>
-            <span id="unread-count" class="badge"><?php echo $unreadCount; ?></span>
-        </div> -->
+        <div class="notification-container">
+        <a href="../public/notifications.php">
+            <?php if (isset($unread_count) && $unread_count > 0): ?>
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" title="<?php echo $unread_count; ?> unread notifications"><?php echo $unread_count; ?></span>
+            <?php endif; ?>
+        </a>
+    </div>
     </div>
 
     <div id="sidebar" class="sidebar">
@@ -56,7 +63,7 @@
             <i class="fas fa-bell"></i>
             <span>Notifications</span>
         </a>
-
+        
         <?php if ($_SESSION['role'] === 'student'): ?>
             <a href="../public/progress.php">
                 <i class="fas fa-tasks"></i>

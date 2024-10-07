@@ -90,5 +90,18 @@ class User {
         $result = $this->db->query($query);
         return $result->fetch_all(MYSQLI_ASSOC); // Return as an associative array
     }
+
+    // Get all user IDs except the sender
+    public function getAllUserIdsExcept($senderId) {
+        $query = "SELECT user_id FROM users WHERE user_id != '$senderId'";
+        $result = mysqli_query($this->db, $query);
+        
+        $user_ids = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $user_ids[] = $row['user_id'];
+        }
+        
+        return $user_ids;
+    }
 }
 ?>
