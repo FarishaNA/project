@@ -65,6 +65,7 @@ h1, p {
     position: relative;
 }
 
+/* Notes Section */
 #notes {
     display: block;
 }
@@ -104,6 +105,44 @@ h1, p {
     text-align: center;
 }
 
+/* Videos Section */
+#videos {
+    display: block;
+}
+
+.videos-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.videos-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.videos-list li video {
+    width: 100%; /* Ensures video takes full width of the container */
+    height: 150px; /* Adjust height to match notes preview */
+    border-radius: 8px;
+    object-fit: cover; /* Ensures the video is contained within the specified dimensions */
+    border: 2px solid #563226;
+}
+
+.video-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
 .icon-container {
     display: flex;
     justify-content: space-evenly;
@@ -117,8 +156,8 @@ h1, p {
     text-decoration: none;
 }
 
-
-#add-note-button {
+#add-note-button,
+#add-video-button {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -130,13 +169,14 @@ h1, p {
     z-index: 1100;
 }
 
-#upload-note-form {
+#upload-note-form,
+#upload-video-form {
     position: absolute; /* Position the form absolutely within .tab-content */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background to cover other content */
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -149,13 +189,16 @@ h1, p {
 }
 
 #upload-note-form input[type="text"],
-#upload-note-form input[type="file"] {
+#upload-note-form input[type="file"],
+#upload-video-form input[type="text"],
+#upload-video-form input[type="file"] {
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
 }
 
-#upload-note-form button {
+#upload-note-form button,
+#upload-video-form button {
     padding: 10px;
     background-color: #b56b54;
     color: #fff;
@@ -164,10 +207,10 @@ h1, p {
     cursor: pointer;
 }
 
-#upload-note-form button:hover {
+#upload-note-form button:hover,
+#upload-video-form button:hover {
     background-color: #9e4f3e;
 }
-
 
 .bottom-buttons {
     display: flex;

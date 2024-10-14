@@ -43,8 +43,8 @@ if ($firstLogin) {
                     <div class="options">
                         <span class="dot">•••</span>
                         <div class="dropdown">
-                            <a href="../public/update_classroom.php?id=<?php echo $classroom['classroom_id']; ?>">Update</a>
-                            <a href="../public/delete_classroom.php?id=<?php echo $classroom['classroom_id']; ?>" onclick="return confirm('Are you sure you want to delete this classroom?');">Delete</a>
+                            <a href="../public/manage_classroom.php?id=<?php echo $classroom['classroom_id']; ?>">Update</a>
+                            <a href="../public/manage_classroom.php?id=<?php echo $classroom['classroom_id']; ?>" onclick="return confirm('Are you sure you want to delete this classroom?');">Delete</a>
                         </div>
                     </div>
                     <a href="../public/classroom.php?id=<?php echo $classroom['classroom_id']; ?>">
@@ -59,3 +59,4 @@ if ($firstLogin) {
     </div>
 </body>
 </html>
+

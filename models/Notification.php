@@ -18,10 +18,12 @@ class Notification {
     }
 
     // Insert recipients into notification_recipients table
-    public function insertNotificationRecipients($notificationId, $recipientIds) {
+    public function insertNotificationRecipients($notificationId, $recipientIds,$senderId) {
         foreach ($recipientIds as $recipientId) {
-            $query = "INSERT INTO notification_recipients (notification_id, recipient_id, is_read) VALUES ('$notificationId', '$recipientId', 0)";
-            mysqli_query($this->db, $query);
+            if ($recipientId != $senderId) {
+                $query = "INSERT INTO notification_recipients (notification_id, recipient_id, is_read) VALUES ('$notificationId', '$recipientId', 0)";
+                mysqli_query($this->db, $query);
+            }
         }
     }
 
@@ -67,7 +69,7 @@ class Notification {
     // Fetch current user's sent notifications
     public function getUserSentNotifications($user_id) {
         $stmt = $this->db->prepare("
-            SELECT n.message, n.created_at 
+            SELECT * 
             FROM notifications AS n 
             WHERE n.sender_id = ?");
         $stmt->bind_param("i", $user_id);

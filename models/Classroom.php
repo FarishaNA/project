@@ -106,5 +106,20 @@ class Classroom {
         $query = "UPDATE classrooms SET classroom_name = '$name', description = '$description' WHERE classroom_id = $id";
         return $this->db->query($query);
     }
+
+    // Retrieve student IDs by classroom ID for notifications
+    public function getStudentsForNotification($classroomId) {
+        $query = "SELECT users.user_id FROM users 
+                JOIN students ON users.user_id = students.user_id 
+                WHERE students.classroom_id = $classroomId";
+        $result = mysqli_query($this->db, $query);
+
+        // Fetch results as a numeric array
+        $students = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        
+        // Extract only user_ids into a numeric array
+        return array_column($students, 'user_id'); 
+    }
+
 }
 ?>

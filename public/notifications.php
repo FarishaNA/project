@@ -3,6 +3,7 @@
 include '../config/database.php';
 include '../models/User.php';
 include '../models/Notification.php';
+include '../models/Classroom.php';
 include '../includes/back_button.php';
 
 $user_id = $_SESSION['user_id'];
@@ -10,6 +11,7 @@ $role = $_SESSION['role'];
 
 $userModel = new User();
 $notificationModel = new Notification();
+$classroomModel = new Classroom();
 
 // Mark notification as read if requested
 if (isset($_GET['mark_read'])) {
@@ -27,7 +29,7 @@ if (isset($_GET['delete_notification'])) {
     exit();
 }
 
-// Fetch user's notifications (viewable by all)
+// Fetch user's notifications
 $notifications = $notificationModel->fetchNotifications($user_id);
 $unread_count = $notificationModel->countUnreadNotifications($user_id);
 
@@ -40,7 +42,7 @@ if ($role !== 'student') {
 // Handle form submission to send new notification
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_notification'])) {
     $message = $_POST['message'];
-    $recipient = $_POST['recipient']; // "all" or selected user IDs
+    $recipient = $_POST['recipient']; // "all", "classroom" or specific user IDs
     
     // Send notification
     $notificationId = $notificationModel->insertNotification($user_id, $message);
@@ -48,12 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_notification']))
     if ($recipient === 'all') {
         // Get all users (excluding sender)
         $all_user_ids = $userModel->getAllUserIdsExcept($user_id);
-        $notificationModel->insertNotificationRecipients($notificationId, $all_user_ids);
+        $notificationModel->insertNotificationRecipients($notificationId, $all_user_ids,$user_id);
+    } elseif ($recipient === 'classroom') {
+        // Send to a classroom (classroom ID passed from the form)
+        $classroom_id = $_POST['classroom_id'];
+        $classroom_users = $classroomModel->getStudentsForNotification($classroom_id);
+        $notificationModel->insertNotificationRecipients($notificationId, $classroom_users,$user_id);
     } else {
-        // Ensure at least one user is selected
+        // Ensure specific users are selected
         if (!empty($_POST['specific_recipients'])) {
             $specific_recipients = $_POST['specific_recipients'];
-            $notificationModel->insertNotificationRecipients($notificationId, $specific_recipients);
+            $notificationModel->insertNotificationRecipients($notificationId, $specific_recipients,$user_id);
         } else {
             // Handle error (no specific recipients selected)
             header("Location: notifications.php?error=no_recipients");
@@ -65,10 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_notification']))
     exit();
 }
 
-// Fetch all users (for user selection in the form)
+// Fetch all users and classrooms for admin/teacher roles
 $all_users = [];
-if ($role !== 'student') {
-    $all_users = $userModel->getAllUsers();
+$classrooms = [];
+$all_users = $userModel->getAllUsers();
+if ($role === 'admin') {
+    $classrooms = $classroomModel->getAllClassrooms();
+} elseif ($role === 'teacher') {
+    $classrooms = $classroomModel->getAllClassroomsForTeacher($user_id);
 }
 ?>
 
@@ -87,7 +98,7 @@ if ($role !== 'student') {
             $('#sent_notifications').hide();
             $('#send_notification_form').hide();
 
-            // Handle button clicks
+            // Handle tab switching
             $('#show_received_notifications').click(function() {
                 $('#received_notifications').show();
                 $('#sent_notifications').hide();
@@ -106,11 +117,31 @@ if ($role !== 'student') {
                 $('#send_notification_form').show();
             });
 
-            // Handle recipient selection
+            $('#classroom_select').hide();
+            $('#specific_recipients_container').hide();
+
+            // Handle recipient type selection change
             $('#recipient').change(function() {
-                if ($(this).val() === 'all') {
+                let selectedValue = $(this).val();
+
+                // If 'all' is selected, hide everything else
+                if (selectedValue === 'all') {
+                    $('#classroom_select').hide();
+                    $('#specific_recipients_container').hide();
                     $('#specific_recipients').prop('disabled', true);
-                } else {
+                }
+
+                // If 'classroom' is selected, show classroom select and hide specific users
+                else if (selectedValue === 'classroom') {
+                    $('#classroom_select').show();
+                    $('#specific_recipients_container').hide();
+                    $('#specific_recipients').prop('disabled', true);
+                }
+
+                // If 'specific' is selected, show specific users and hide classroom select
+                else if (selectedValue === 'specific') {
+                    $('#classroom_select').hide();
+                    $('#specific_recipients_container').show();
                     $('#specific_recipients').prop('disabled', false);
                 }
             });
@@ -120,12 +151,12 @@ if ($role !== 'student') {
 <body>
 
     <div class="notification-container">
-        <h2>User Notifications</h2>
-
         <!-- Navigation buttons -->
-        <button id="show_received_notifications">Received Notifications</button>
-        <button id="show_sent_notifications">Sent Notifications</button>
-        <button id="show_send_notification">Send Notification</button>
+        <?php if ($role !== 'student'): ?>    
+            <button id="show_received_notifications">Received</button>
+            <button id="show_sent_notifications">Sent</button>
+            <button id="show_send_notification">New</button>
+        <?php endif; ?>
 
         <!-- Received Notifications -->
         <div id="received_notifications">
@@ -155,13 +186,10 @@ if ($role !== 'student') {
                     </li>
                 <?php endforeach; ?>
             </ul>
-            <?php if (isset($_GET['deleted_success'])): ?>
-                <p class="success">Notification deleted successfully!</p>
-            <?php endif; ?>
         </div>
 
-        <!-- Send Notification Form -->
-        <div id="send_notification_form">
+         <!-- Send Notification Form -->
+         <div id="send_notification_form">
             <h2>Send New Notification</h2>
             <?php if (isset($_GET['sent_success'])): ?>
                 <p class="success">Notification sent successfully!</p>
@@ -176,17 +204,35 @@ if ($role !== 'student') {
                 <label for="recipient">Send To:</label>
                 <select name="recipient" id="recipient" required>
                     <option value="all">All Users</option>
+                    <?php if (!empty($classrooms)): ?>
+                        <option value="classroom">Classroom</option>
+                    <?php endif; ?>
                     <option value="specific">Specific Users</option>
                 </select>
 
-                <label for="specific_recipients">Select Specific Users:</label>
-                <select name="specific_recipients[]" id="specific_recipients" multiple disabled>
-                    <?php foreach ($all_users as $user): ?>
-                        <option value="<?php echo $user['user_id']; ?>">
-                            <?php echo htmlspecialchars($user['username']); ?> (<?php echo htmlspecialchars($user['role']); ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <!-- Classroom select (visible when "Classroom" is chosen) -->
+                <div id="classroom_select" style="display: none;">
+                    <label for="classroom_id">Select Classroom:</label>
+                    <select name="classroom_id">
+                        <?php foreach ($classrooms as $classroom): ?>
+                            <option value="<?php echo $classroom['classroom_id']; ?>">
+                                <?php echo htmlspecialchars($classroom['classroom_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- Specific users select (disabled by default) -->
+                <div id="specific_recipients_container" style="display: none;">
+                    <label for="specific_recipients">Select Specific Users:</label>
+                    <select name="specific_recipients[]" id="specific_recipients" multiple disabled>
+                        <?php foreach ($all_users as $user): ?>
+                            <option value="<?php echo $user['user_id']; ?>">
+                                <?php echo htmlspecialchars($user['username']); ?> (<?php echo htmlspecialchars($user['role']); ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
                 <button type="submit" name="send_notification">Send Notification</button>
             </form>
@@ -195,3 +241,6 @@ if ($role !== 'student') {
 
 </body>
 </html>
+
+
+

@@ -2,6 +2,7 @@
 require_once '../config/database.php';
 require_once '../models/Classroom.php';
 require_once '../models/Note.php';
+require_once '../models/Video.php'; 
 include '../includes/dashboard_header.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -11,6 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $classroomModel = new Classroom();
 $noteModel = new Note();
+$videoModel = new Video();
 $classroomId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $classroom = $classroomModel->getClassroomById($classroomId);
 
@@ -35,6 +37,7 @@ $teachers = $classroomModel->getTeachersByClassroomId($classroomId);
 
 // Fetch notes for the classroom
 $notes = $noteModel->getNotesByClassroomId($classroomId);
+$videos = $videoModel->getVideosByClassroomId($classroomId);
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +99,7 @@ $notes = $noteModel->getNotesByClassroomId($classroomId);
             <button id="add-note-button" title="Add Note"><i class="fas fa-plus"></i></button>
             
             <form id="upload-note-form" action="../public/upload_note.php" method="POST" enctype="multipart/form-data" style="display:none;">
+                 <h2>Upload Note</h2>
                 <input type="hidden" name="classroom_id" value="<?php echo $classroomId; ?>">
                 <input type="text" name="note_title" placeholder="Enter note title" required>
                 <input type="file" name="note_file" required>
@@ -105,9 +109,50 @@ $notes = $noteModel->getNotesByClassroomId($classroomId);
         </div>
 
 
+        <!-- Videos Tab -->
         <div id="videos" class="tab-content" style="display: none;">
-            <!-- Load videos here -->
+           
+            <?php if ($_SESSION['role'] === 'teacher'): ?>
+                <button id="add-video-button" class="add_note" title="Add Video"><i class="fas fa-plus"></i></button>
+                
+                <form id="upload-video-form" action="../public/upload_video.php" method="POST" enctype="multipart/form-data" style="display:none;" class="upload_note">
+                   <h2>Upload Video</h2>
+                    <input type="hidden" name="classroom_id" value="<?php echo $classroomId; ?>">
+                    <input type="text" name="video_title" placeholder="Enter video title" required>
+                    <input type="file" name="video_file" accept="video/*" required>
+                    <button type="submit">Upload Video</button>
+                </form>
+            <?php endif; ?>
+        
+            
+            <ul class="videos-list">
+                <?php foreach ($videos as $video): ?>
+                    <li>
+                        <div class="video-title"><?php echo htmlspecialchars($video['video_title']); ?></div>
+                        <video controls>
+                            <source src="<?php echo htmlspecialchars($video['video_file_path']); ?>" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        <div class="icon-container">
+                        <?php if ($_SESSION['role'] === 'teacher'): ?>
+                                <a href="../public/edit_video.php?id=<?php echo $video['video_id']; ?>" class="edit-icon" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="delete_video.php?id=<?php echo $video['video_id']; ?>" class="delete-icon" title="Delete" onclick="return confirm('Are you sure you want to delete this note?')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            <?php endif; ?>
+                            <a href="<?php echo htmlspecialchars($video['video_file_path']); ?>" class="download-icon" title="Download" download>
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
+
+        
         <div id="users" class="tab-content" style="display: none;">
             <h2>Teachers</h2>
             <ul>
@@ -126,7 +171,6 @@ $notes = $noteModel->getNotesByClassroomId($classroomId);
 
     <div class="bottom-buttons">
         <button id="chat-button"><i class="fas fa-comments"></i><span> Chat</span></button>
-        <button id="video-button"><i class="fas fa-video"></i><span>Video</span></button>
     </div>
 
     <script>
@@ -162,13 +206,14 @@ $notes = $noteModel->getNotesByClassroomId($classroomId);
                 $('#upload-note-form').toggle();
             });
 
+            $('#add-video-button').click(function () {
+                $('#upload-video-form').toggle();
+            });
+
             $('#chat-button').click(function() {
                 window.location.href = '../public/chat.php';
             });
 
-            $('#video-button').click(function() {
-                window.location.href = '../public/video.php';
-            });
         });
     </script>
 </body>

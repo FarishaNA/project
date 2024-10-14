@@ -37,7 +37,7 @@ if ($firstLogin) {
                     <div class="options">
                         <span class="dot">•••</span>
                         <div class="dropdown">
-                            <a href="../public/classroom.php?id=<?php echo $classroom['classroom_id']; ?>">View Classroom</a>
+                            <a href="../public/manage_classroom.php?id=<?php echo $classroom['classroom_id']; ?>">Leave Classroom</a>
                         </div>
                     </div>
                     <a href="../public/classroom.php?id=<?php echo $classroom['classroom_id']; ?>">
