@@ -1,25 +1,29 @@
 /* General body styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f5e0d4; /* Updated background color */
     margin: 0;
     padding: 0;
 }
 
 /* Container for centering content */
 .container {
-    width: 80%;
+    width: 50%;
     margin: 0 auto;
+    margin-top: 100px;
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Headings */
 h1 {
     text-align: center;
-    color: #333;
+    color: #9a6648; /* Updated heading color */
     margin-bottom: 20px;
 }
 
@@ -38,16 +42,25 @@ h1 {
 .back-link {
     display: inline-block;
     margin-top: 20px;
-    color: #007BFF;
+    background-color: #9a6648; /* Updated background color */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
     text-decoration: none;
     font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added box shadow */
 }
 
 .back-link:hover {
-    text-decoration: underline;
+    background-color: #8c5e4f; /* Updated hover color */
 }
 
 /* Chart container */
 #scoreChart {
     margin: 0 auto;
+}
+
+/* Added additional shadow effect to make elements more visually appealing */
+.container, .back-link {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -61,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>Student Name</th>
             <th>Grade</th>
             <th>Feedback</th>
+            <th>Review Submission</th>
         </tr>
     </thead>
     <tbody>
@@ -88,6 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <textarea class="feedback-input" name="feedback" placeholder="Enter feedback" rows="1"></textarea>
                         <button class="submit-btn" type="submit">Submit</button>
                     </form>
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if ($student['submission_file_path']): ?>
+                    <!-- Link to review the submission -->
+                    <a href="<?php echo htmlspecialchars($student['submission_file_path']); ?>" target="_blank" class="submit-btn">Review Submission</a>
+                <?php else: ?>
+                    No submission
                 <?php endif; ?>
             </td>
         </tr>

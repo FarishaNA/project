@@ -1,5 +1,5 @@
 <?php 
-session_start();
+include '../includes/back_button.php';
 // Retrieve the score and total questions from the query parameters
 $totalScore = isset($_GET['score']) ? intval($_GET['score']) : 0;
 $totalQuestions = isset($_GET['total']) ? intval($_GET['total']) : 0;

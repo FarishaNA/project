@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['update_details'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-
         $sql = $userModel->updateUser($user_id,$name,$email,NULL);
     }
 

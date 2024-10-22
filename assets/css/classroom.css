@@ -63,6 +63,7 @@ h1, p {
     background-color: #f5e0d4; 
     margin: 0 auto;
     position: relative;
+    overflow-y: auto;
 }
 
 /* Notes Section */
@@ -224,4 +225,52 @@ h1, p {
     background-color: #f0f0f0;
     border-radius: 10px;
     border-bottom: 2px solid #FF5722;
+}
+
+.delete-icon {
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove border */
+    color: #b56b54; /* Set icon color */
+    font-size: 18px; /* Set font size for the icon */
+    cursor: pointer; /* Change cursor on hover */
+    margin-left: 10px; /* Add space between student name and button */
+    margin-bottom: 10px;
+}
+
+.delete-icon:hover {
+    color: #d9534f; /* Change color on hover for better visibility */
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+/* Optional: Add some additional styles for accessibility */
+.delete-icon:focus {
+    outline: 2px solid #FF5722; /* Outline on focus */
+    outline-offset: 2px; /* Offset for better visibility */
+}
+
+.user-heading {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333; /* Darker color for readability */
+}
+
+.users-list {
+    padding: 0; /* Remove default padding */
+    list-style: none; /* Remove bullet points */
+}
+
+.user-item {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space between name and button */
+    align-items: center; /* Center items vertically */
+    padding: 10px; /* Padding for each item */
+    background-color: #dbbca9; /* White background for items */
+    border: 1px solid #e2ac7a; /* Light border for separation */
+    border-radius: 5px; /* Slightly rounded corners */
+    margin-bottom: 10px; /* Space between items */
+    transition: background-color 0.3s; /* Smooth background change on hover */
+}
+
+.user-item:hover {
+    background-color: #e7f3ff; /* Light blue on hover for emphasis */
 }

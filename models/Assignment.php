@@ -64,7 +64,8 @@ class  Assignment{
                     sa.student_id, 
                     u.username AS student_name, 
                     sa.grade, 
-                    sa.feedback
+                    sa.feedback,
+                    sa.submission_file_path
                 FROM 
                      student_assignments sa
                 JOIN 

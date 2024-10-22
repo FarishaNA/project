@@ -1,115 +1,148 @@
 /* Overall container styles */
 .notification-container {
     padding: 20px;
-    background-color: #f9f9f9; /* Light gray background */
-    border-radius: 8px; /* Rounded corners */
-    max-width: 800px; /* Max width of the container */
-    margin: auto; /* Center the container */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    background-color: #f5e0d4; /* Light peach background */
+    border-radius: 8px;
+    max-width: 800px;
+    margin: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+}
+
+/* Notification div border updated */
+#received_notifications,#sent_notifications,#send_notification_form {
+    border: 2px solid #d1a18d; /* Soft brown border */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f5ece7; 
+}
+
+/* Navigation button container */
+.navbuttons {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+button {
+    background-color: #9a6648; /* Default button color */
+    color: white;
+    padding: 10px 15px;
+    border: none; /* Ensure no border on the buttons */
+    border-radius: 8px 8px 0 0; /* Rounded corners at the top */
+    cursor: pointer;
+    font-size: 16px;
+    flex-grow: 1;
+}
+
+
+button.active {
+    background-color: #dabfb0;
+    color: #333; /* Matching button color when active */
+}
+
+button:hover {
+    background-color: #8c5e4f; /* Darker shade for hover */
 }
 
 /* Header styles */
 h2 {
     color: #333; /* Darker text color */
-    margin-bottom: 10px; /* Spacing below headers */
-    font-size: 1.5em; /* Slightly larger font size */
+    margin-bottom: 10px;
+    font-size: 1.5em;
 }
 
 /* Unordered list styles */
 ul {
-    list-style-type: none; /* Remove default bullet points */
-    padding: 0; /* Remove padding */
+    list-style-type: none;
+    padding: 0;
 }
 
 /* List item styles */
 li {
-    padding: 15px; /* Padding inside list items */
-    border-bottom: 1px solid #ddd; /* Light border between items */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    padding: 15px;
+    border-bottom: 1px solid #e0b7a3; /* Lighter, matching border */
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* Styles for read and unread notifications */
 li.read {
-    background-color: #e7f4e4; /* Light green background for read notifications */
+    background-color: #fff; /* White for read notifications */
 }
 
 li.unread {
-    background-color: #fce4e4; /* Light red background for unread notifications */
+    background-color: #f9c1b5; /* Light coral background for unread notifications */
 }
 
 /* Change background color on hover */
 li:hover {
-    background-color: #f1f1f1; /* Slightly darker on hover */
+    background-color: #f0d7cf; /* Slightly darker hover color to match the palette */
+    border-color: #dabfb0; /* Lighter border on hover */
 }
 
 /* Success message styles */
 .success {
-    color: green; /* Green text color for success messages */
-    font-weight: bold; /* Bold text */
-    margin-bottom: 15px; /* Spacing below messages */
+    color: #4CAF50; /* Green for success messages */
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 /* Error message styles */
 .error {
-    color: red; /* Red text color for error messages */
-    font-weight: bold; /* Bold text */
-    margin-bottom: 15px; /* Spacing below messages */
+    color: #f44336; /* Red for error messages, matching the buttons */
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 /* Form styles */
 form {
-    margin-top: 20px; /* Spacing above the form */
-    border: 1px solid #ccc; /* Border around the form */
-    padding: 15px; /* Padding inside the form */
-    border-radius: 5px; /* Rounded corners */
-    background-color: #fff; /* White background for the form */
+    margin-top: 20px;
+    border: 1px solid #d1a18d; /* Matching border color */
+    padding: 15px;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* White background for form */
 }
 
 /* Textarea styles */
 textarea {
-    width: 100%; /* Full width */
-    height: 100px; /* Set height for textarea */
-    margin-bottom: 15px; /* Spacing below textarea */
-    padding: 10px; /* Padding inside textarea */
-    border-radius: 5px; /* Rounded corners */
-    border: 1px solid #ccc; /* Border color */
+    width: 95%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d1a18d; /* Matching border color */
 }
 
 /* Select styles */
 select {
-    width: 100%; /* Full width */
-    padding: 10px; /* Padding inside select */
-    margin-bottom: 15px; /* Spacing below select */
-    border-radius: 5px; /* Rounded corners */
-    border: 1px solid #ccc; /* Border color */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #d1a18d; /* Matching border color */
+}
+.submit-button {
+    border-radius: 8px;
 }
 
-/* Button styles */
-button {
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text color */
-    padding: 10px 15px; /* Padding inside button */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 16px; /* Font size */
-}
-
-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+#specific_recipients {
+    padding-bottom: 10px;
 }
 
 /* Responsive design for smaller screens */
 @media (max-width: 600px) {
     .notification-container {
-        padding: 10px; /* Less padding on smaller screens */
+        padding: 10px;
     }
 
     h2 {
-        font-size: 1.2em; /* Smaller font size for headers */
+        font-size: 1.2em;
     }
 
     button {
-        width: 100%; /* Full width buttons */
+        width: 100%;
     }
 }

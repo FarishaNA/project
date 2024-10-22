@@ -1,0 +1,118 @@
+/* Overall container styles */
+.feedback-container {
+    padding: 20px;
+    background-color: #f5e0d4; /* Light peach background */
+    border-radius: 8px;
+    max-width: 800px;
+    margin: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Feedback list styles */
+#received_feedback {
+    border: 2px solid #d1a18d; /* Soft brown border */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #eed1c0;
+}
+
+/* Header styles */
+h2 {
+    color: #333; /* Darker text color */
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+/* Unordered list styles */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* List item styles */
+li {
+    padding: 15px;
+    border-bottom: 1px solid #e0b7a3; /* Lighter, matching border */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Styles for feedback messages */
+li {
+    background-color: #fff; /* White background for feedback messages */
+}
+
+/* Change background color on hover */
+li:hover {
+    background-color: #f0d7cf; /* Slightly darker hover color */
+    border-color: #dabfb0; /* Lighter border on hover */
+}
+
+/* Success message styles */
+.success {
+    color: #4CAF50; /* Green for success messages */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Error message styles */
+.error {
+    color: #f44336; /* Red for error messages */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Form styles */
+form {
+    margin-top: 20px;
+    border: 1px solid #d1a18d; /* Matching border color */
+    padding: 15px;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* White background for form */
+}
+
+/* Textarea styles */
+textarea {
+    width: 95%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d1a18d; /* Matching border color */
+}
+
+/* Select styles */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #d1a18d; /* Matching border color */
+}
+
+/* Button styles */
+button {
+    background-color: #9a6648; /* Default button color */
+    color: white;
+    padding: 10px 15px;
+    border: none; /* Ensure no border on the buttons */
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Full width for buttons */
+}
+
+button:hover {
+    background-color: #8c5e4f; /* Darker shade for hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .feedback-container {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+}

@@ -31,6 +31,18 @@ if (!$classroom) {
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['role'] === 'teacher') {
+    $classroomId =  $_SESSION['selected_classroom'] ;
+    $studentId = intval($_POST['student_id']);
+    
+    // Call the function to remove the student from the class
+    $classroomModel->removeStudentFromClassroom($studentId ,$classroomId);
+    
+    // Refresh the page or redirect to show the updated list
+    header("Location: " . $_SERVER['PHP_SELF'] . "?id=" . $classroomId);
+    exit();
+}
+
 // Fetch students and teachers
 $students = $classroomModel->getStudentsByClassroomId($classroomId);
 $teachers = $classroomModel->getTeachersByClassroomId($classroomId);
@@ -154,19 +166,35 @@ $videos = $videoModel->getVideosByClassroomId($classroomId);
 
         
         <div id="users" class="tab-content" style="display: none;">
-            <h2>Teachers</h2>
-            <ul>
+            <h2 class="user-heading">Teachers</h2>
+            <ul class="users-list">
                 <?php foreach ($teachers as $teacher): ?>
-                    <li><?php echo htmlspecialchars($teacher['name']); ?></li>
+                    <li class="user-item"><?php echo htmlspecialchars($teacher['name']); ?></li>
                 <?php endforeach; ?>
             </ul>
-            <h2>Students</h2>
-            <ul>
+            
+            <h2 class="user-heading">Students</h2>
+            <ul class="users-list">
                 <?php foreach ($students as $student): ?>
-                    <li><?php echo htmlspecialchars($student['name']); ?></li>
+                    <li class="user-item">
+                        <?php echo htmlspecialchars($student['name']); ?>
+                        
+                        <?php if ($_SESSION['role'] === 'teacher'): ?>
+                            <div class="icon-container" style="display:inline;">
+                                <form action="" method="POST" class="delete-form" style="display:inline;">
+                                    <input type="hidden" name="student_id" value="<?php echo $student['user_id']; ?>">
+                                    <button type="submit" class="delete-icon" title="Remove Student" 
+                                        onclick="return confirm('Are you sure you want to remove this student?');">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        <?php endif; ?>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
+
     </div>
 
     <div class="bottom-buttons">

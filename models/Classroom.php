@@ -1,6 +1,8 @@
 <?php
 
 require_once '../config/database.php'; // Include the database connection
+require_once '../models/Assignment.php';
+require_once '../models/Quiz.php';
 
 class Classroom {
     private $db;
@@ -8,6 +10,8 @@ class Classroom {
     public function __construct() {
         global $conn;
         $this->db = $conn;
+        $this->assignmentModel = new Assignment();
+        $this->quizModel = new Quiz();
     }
 
     // Create a new classroom
@@ -37,15 +41,10 @@ class Classroom {
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
-    // // Update a classroom's details
-    // public function updateClassroom($classroomId, $teacherId, $name, $description) {
-    //     $query = "UPDATE classrooms SET classroom_name = '$name', description = '$description' WHERE classroom_id = $classroomId AND teacher_id = $teacherId";
-    //     return mysqli_query($this->db, $query);
-    // }
 
     // Retrieve students by classroom ID
     public function getStudentsByClassroomId($classroomId) {
-        $query = "SELECT users.username AS name FROM users 
+        $query = "SELECT users.username AS name , users.user_id FROM users 
                   JOIN students ON users.user_id = students.user_id 
                   WHERE students.classroom_id = $classroomId";
         $result = mysqli_query($this->db, $query);
@@ -88,7 +87,7 @@ class Classroom {
     
     // Retrieve all classrooms for a specific student
     public function getClassroomsForStudent($studentId) {
-        $query = "SELECT c.classroom_id, c.classroom_name FROM classrooms c 
+        $query = "SELECT c.classroom_id, c.classroom_name,c.teacher_id FROM classrooms c 
                   JOIN students s ON c.classroom_id = s.classroom_id 
                   WHERE s.user_id = $studentId";
         $result = mysqli_query($this->db, $query);
@@ -120,6 +119,53 @@ class Classroom {
         // Extract only user_ids into a numeric array
         return array_column($students, 'user_id'); 
     }
+ 
+    // Function to remove student from classroom and delete related records
+    public function removeStudentFromClassroom($studentId, $classroomId) {
+        // Delete the student from the students table
+        $sql = "DELETE FROM students WHERE user_id = $studentId AND classroom_id = $classroomId";
+        $this->db->query($sql);
 
+        // Get all quizzes related to the classroom from the Quiz model
+        $quizzes = $this->quizModel->getQuizForClassroom($classroomId);
+        if (!empty($quizzes)) {
+            $quizIds = array_column($quizzes, 'quiz_id'); // Extract quiz IDs
+            $quizIdsStr = implode(',', $quizIds);
+
+            // Delete the student's answers related to those quizzes
+            $sqlAnswers = "DELETE FROM student_answers WHERE student_id = $studentId AND quiz_id IN ($quizIdsStr)";
+            $this->db->query($sqlAnswers);
+
+            // Delete the student's quiz records from students_quizzes
+            $sqlQuizzes = "DELETE FROM student_quizzes WHERE student_id = $studentId AND quiz_id IN ($quizIdsStr)";
+            $this->db->query($sqlQuizzes);
+        }
+
+        // Get all assignments related to the classroom from the Assignment model
+        $assignments = $this->assignmentModel->getAssignmentsForClassroom($classroomId);
+        if (!empty($assignments)) {
+            $assignmentIds = array_column($assignments, 'assignment_id'); // Extract assignment IDs
+            $assignmentIdsStr = implode(',', $assignmentIds);
+
+            // Delete the student's assignment submissions related to those assignments
+            $sqlAssignments = "DELETE FROM student_assignments WHERE student_id = $studentId AND assignment_id IN ($assignmentIdsStr)";
+            $this->db->query($sqlAssignments);
+        }
+
+        return true;
+    }
+     
+    public function getClassroomNameById($classroomId) {
+        $query = "SELECT classroom_name FROM classrooms WHERE classroom_id = $classroomId";
+        $result = $this->db->query($query);
+        
+        // Fetch the classroom name from the result
+        if ($row = $result->fetch_assoc()) {
+            return $row['classroom_name'];  // Return the classroom name as a string
+        }
+        
+        return null;  // Return null if no classroom is found
+    }
+    
 }
 ?>

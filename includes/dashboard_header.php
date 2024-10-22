@@ -55,10 +55,10 @@
             <i class="fas fa-user"></i>
             <span>Personal Details</span>
         </a>
-        <a href="../public/calendar.php">
+        <!-- <a href="../public/calendar.php">
             <i class="fas fa-calendar"></i>
             <span>Calendar</span>
-        </a>
+        </a> -->
         <a href="../public/notifications.php">
             <i class="fas fa-bell"></i>
             <span>Notifications</span>

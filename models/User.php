@@ -103,5 +103,17 @@ class User {
         
         return $user_ids;
     }
+
+    public function getUsernameById($userId) {
+        $query = "SELECT username FROM users WHERE user_id = $userId";
+        $result = $this->db->query($query);
+        
+        // Fetch the classroom name from the result
+        if ($row = $result->fetch_assoc()) {
+            return $row['username'];  // Return the classroom name as a string
+        }
+        
+        return null;  // Return null if no classroom is found
+    }
 }
 ?>

@@ -31,7 +31,7 @@ h1, p,h2 {
     color: #333;
 }
 
-input[type="submit"],#edit-button, #final-sub {
+input[type="submit"],#edit-button, #final-sub , .view-score-btn{
     background-color: #9a6648;
     color: #fff;
     padding: 10px 15px;
@@ -39,6 +39,11 @@ input[type="submit"],#edit-button, #final-sub {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.view-score-btn{
+    text-decoration: none;
+    margin-bottom: 40px;
 }
 
 #final-sub {

@@ -105,6 +105,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_SESSION['role'] == 'teacher') {
             <?php else: ?>
                     <p>You have reached the maximum number of attempts for this quiz.</p>
             <?php endif; ?>
+            <?php if ($attemptsCount > 0): 
+                // Get the latest quiz attempt score from the database
+                $lastAttempt = $quizModel->getQuizStats($quizId, $studentId);
+                $totalQuestions = count($questions);
+            ?>
+                <p style="text-align: left;">Your previous score: <?php echo $lastAttempt['score']; ?> / <?php echo $totalQuestions; ?></p>
+                <a href="score.php?score=<?php echo $lastAttempt['score']; ?>&total=<?php echo $totalQuestions; ?>" class="view-score-btn">View Previous Result</a>
+            <?php endif; ?>
         </form>
     <?php elseif ($_SESSION['role'] == 'teacher'): ?>
         <!-- Teacher View -->

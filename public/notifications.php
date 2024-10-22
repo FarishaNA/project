@@ -50,17 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_notification']))
     if ($recipient === 'all') {
         // Get all users (excluding sender)
         $all_user_ids = $userModel->getAllUserIdsExcept($user_id);
-        $notificationModel->insertNotificationRecipients($notificationId, $all_user_ids,$user_id);
+        $notificationModel->insertNotificationRecipients($notificationId, $all_user_ids, $user_id);
     } elseif ($recipient === 'classroom') {
         // Send to a classroom (classroom ID passed from the form)
         $classroom_id = $_POST['classroom_id'];
         $classroom_users = $classroomModel->getStudentsForNotification($classroom_id);
-        $notificationModel->insertNotificationRecipients($notificationId, $classroom_users,$user_id);
+        $notificationModel->insertNotificationRecipients($notificationId, $classroom_users, $user_id);
     } else {
         // Ensure specific users are selected
         if (!empty($_POST['specific_recipients'])) {
             $specific_recipients = $_POST['specific_recipients'];
-            $notificationModel->insertNotificationRecipients($notificationId, $specific_recipients,$user_id);
+            $notificationModel->insertNotificationRecipients($notificationId, $specific_recipients, $user_id);
         } else {
             // Handle error (no specific recipients selected)
             header("Location: notifications.php?error=no_recipients");
@@ -97,24 +97,39 @@ if ($role === 'admin') {
             $('#received_notifications').show();
             $('#sent_notifications').hide();
             $('#send_notification_form').hide();
+            
+            // Mark the first button as active
+            $('#show_received_notifications').addClass('active');
 
-            // Handle tab switching
+            // Handle tab switching and button color change
             $('#show_received_notifications').click(function() {
                 $('#received_notifications').show();
                 $('#sent_notifications').hide();
                 $('#send_notification_form').hide();
+                
+                // Change button colors
+                $('.navbuttons button').removeClass('active');
+                $(this).addClass('active');
             });
 
             $('#show_sent_notifications').click(function() {
                 $('#received_notifications').hide();
                 $('#sent_notifications').show();
                 $('#send_notification_form').hide();
+                
+                // Change button colors
+                $('.navbuttons button').removeClass('active');
+                $(this).addClass('active');
             });
 
             $('#show_send_notification').click(function() {
                 $('#received_notifications').hide();
                 $('#sent_notifications').hide();
                 $('#send_notification_form').show();
+                
+                // Change button colors
+                $('.navbuttons button').removeClass('active');
+                $(this).addClass('active');
             });
 
             $('#classroom_select').hide();
@@ -128,6 +143,7 @@ if ($role === 'admin') {
                 if (selectedValue === 'all') {
                     $('#classroom_select').hide();
                     $('#specific_recipients_container').hide();
+                    $('#specific_recipients input').prop('checked', false);
                     $('#specific_recipients').prop('disabled', true);
                 }
 
@@ -135,6 +151,7 @@ if ($role === 'admin') {
                 else if (selectedValue === 'classroom') {
                     $('#classroom_select').show();
                     $('#specific_recipients_container').hide();
+                    $('#specific_recipients input').prop('checked', false);
                     $('#specific_recipients').prop('disabled', true);
                 }
 
@@ -149,17 +166,19 @@ if ($role === 'admin') {
     </script>
 </head>
 <body>
-
-    <div class="notification-container">
+ <div class="notification-container">
+    <div class="navbuttons">
         <!-- Navigation buttons -->
         <?php if ($role !== 'student'): ?>    
-            <button id="show_received_notifications">Received</button>
-            <button id="show_sent_notifications">Sent</button>
-            <button id="show_send_notification">New</button>
+            <button id="show_received_notifications">Received Notifications</button>
+            <button id="show_sent_notifications">Sent Notifications</button>
+            <button id="show_send_notification">Create Notification</button>
         <?php endif; ?>
+    </div>
 
-        <!-- Received Notifications -->
-        <div id="received_notifications">
+    <!-- Received Notifications -->
+    <div id="received_notifications">
+        <?php if (count($notifications) > 0): ?>
             <h2>Your Notifications</h2>
             <ul>
                 <?php foreach ($notifications as $notification): ?>
@@ -172,10 +191,14 @@ if ($role === 'admin') {
                     </li>
                 <?php endforeach; ?>
             </ul>
-        </div>
+        <?php else: ?>
+            <p>No notifications received.</p>
+        <?php endif; ?>
+    </div>
 
-        <!-- Sent Notifications -->
-        <div id="sent_notifications">
+    <!-- Sent Notifications -->
+    <div id="sent_notifications">
+        <?php if (count($sent_notifications) > 0): ?>
             <h2>Your Sent Notifications</h2>
             <ul>
                 <?php foreach ($sent_notifications as $sent): ?>
@@ -186,61 +209,61 @@ if ($role === 'admin') {
                     </li>
                 <?php endforeach; ?>
             </ul>
-        </div>
-
-         <!-- Send Notification Form -->
-         <div id="send_notification_form">
-            <h2>Send New Notification</h2>
-            <?php if (isset($_GET['sent_success'])): ?>
-                <p class="success">Notification sent successfully!</p>
-            <?php endif; ?>
-            <?php if (isset($_GET['error'])): ?>
-                <p class="error">Please select at least one specific recipient!</p>
-            <?php endif; ?>
-            <form method="POST" action="">
-                <label for="message">Message:</label>
-                <textarea name="message" id="message" required></textarea>
-
-                <label for="recipient">Send To:</label>
-                <select name="recipient" id="recipient" required>
-                    <option value="all">All Users</option>
-                    <?php if (!empty($classrooms)): ?>
-                        <option value="classroom">Classroom</option>
-                    <?php endif; ?>
-                    <option value="specific">Specific Users</option>
-                </select>
-
-                <!-- Classroom select (visible when "Classroom" is chosen) -->
-                <div id="classroom_select" style="display: none;">
-                    <label for="classroom_id">Select Classroom:</label>
-                    <select name="classroom_id">
-                        <?php foreach ($classrooms as $classroom): ?>
-                            <option value="<?php echo $classroom['classroom_id']; ?>">
-                                <?php echo htmlspecialchars($classroom['classroom_name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <!-- Specific users select (disabled by default) -->
-                <div id="specific_recipients_container" style="display: none;">
-                    <label for="specific_recipients">Select Specific Users:</label>
-                    <select name="specific_recipients[]" id="specific_recipients" multiple disabled>
-                        <?php foreach ($all_users as $user): ?>
-                            <option value="<?php echo $user['user_id']; ?>">
-                                <?php echo htmlspecialchars($user['username']); ?> (<?php echo htmlspecialchars($user['role']); ?>)
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <button type="submit" name="send_notification">Send Notification</button>
-            </form>
-        </div>
+        <?php else: ?>
+            <p>You have not sent any notifications.</p>
+        <?php endif; ?>
     </div>
 
+    <!-- Send Notification Form -->
+    <div id="send_notification_form">
+        <h2>Send New Notification</h2>
+        <?php if (isset($_GET['sent_success'])): ?>
+            <p class="success">Notification sent successfully!</p>
+        <?php endif; ?>
+        <?php if (isset($_GET['error'])): ?>
+            <p class="error">Please select at least one specific recipient!</p>
+        <?php endif; ?>
+        <form method="POST" action="">
+            <label for="message">Message:</label>
+            <textarea name="message" id="message" required></textarea>
+
+            <label for="recipient">Send To:</label>
+            <select name="recipient" id="recipient" required>
+                <option value="all">All Users</option>
+                <?php if (!empty($classrooms)): ?>
+                    <option value="classroom">Classroom</option>
+                <?php endif; ?>
+                <option value="specific">Specific Users</option>
+            </select>
+
+            <!-- Classroom select (visible when "Classroom" is chosen) -->
+            <div id="classroom_select" style="display:none;">
+                <label for="classroom_id">Select Classroom:</label>
+                <select name="classroom_id" id="classroom_id">
+                    <?php foreach ($classrooms as $classroom): ?>
+                        <option value="<?php echo $classroom['classroom_id']; ?>">
+                            <?php echo htmlspecialchars($classroom['classroom_name']); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Specific recipients (visible when "Specific" is chosen) -->
+            <div id="specific_recipients_container" style="display:none;">
+                <h4>Select Specific Users:</h4>
+                <div id="specific_recipients">
+                    <?php foreach ($all_users as $user): ?>
+                        <label>
+                            <input type="checkbox" name="specific_recipients[]" value="<?php echo $user['user_id']; ?>">
+                            <?php echo htmlspecialchars($user['username']); ?>
+                        </label>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <button type="submit" name="send_notification" class="submit-button">Send Notification</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
-
-
-
