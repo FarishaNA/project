@@ -29,17 +29,18 @@ $userName = $_SESSION['username'] ?? ''; // Assumes user name is stored in sessi
 <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getDatabase, ref, onChildAdded, push, remove,onChildRemoved } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+    import { getDatabase, ref, onChildAdded, push, remove, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
     // Your web app's Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyB2ppawQvZgcCyqsFZIveFMMhRRi6CIRiE",
-        authDomain: "virtualstudyspace-a3086.firebaseapp.com",
-        projectId: "virtualstudyspace-a3086",
-        storageBucket: "virtualstudyspace-a3086.appspot.com",
-        messagingSenderId: "49998314625",
-        appId: "1:49998314625:web:f45863520246bf97866180",
-        measurementId: "G-3TS1FG8P68",
-        databaseURL: "https://virtualstudyspace-a3086-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID",
+        databaseURL: "YOUR_DATABASE_URL"
     };
 
     // Initialize Firebase
@@ -77,8 +78,8 @@ $userName = $_SESSION['username'] ?? ''; // Assumes user name is stored in sessi
         }
     });
 
-     // Function to delete a message from Firebase
-     function deleteMessage(messageId) {
+    // Function to delete a message from Firebase
+    function deleteMessage(messageId) {
         const messageRef = ref(database, 'classrooms/' + classroomId + '/messages/' + messageId);
         remove(messageRef);
     }
@@ -100,7 +101,7 @@ $userName = $_SESSION['username'] ?? ''; // Assumes user name is stored in sessi
 
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
-        messageElement.setAttribute('data-id', messageId ||'');
+        messageElement.setAttribute('data-id', messageId || '');
 
         if (user === '<?php echo htmlspecialchars($userName); ?>') {
             messageElement.classList.add('my-message');
@@ -123,17 +124,17 @@ $userName = $_SESSION['username'] ?? ''; // Assumes user name is stored in sessi
     }
 
     onChildRemoved(messagesRef, (snapshot) => {
-    const messageId = snapshot.key;
+        const messageId = snapshot.key;
 
-    // Remove the message from the DOM if it is deleted by any user
-    const messageElement = document.querySelector(`.message[data-id="${messageId}"]`);
-    if (messageElement) {
-        messageElement.remove(); // Remove the message element from the DOM
-    }
-});
-
+        // Remove the message from the DOM if it is deleted by any user
+        const messageElement = document.querySelector(`.message[data-id="${messageId}"]`);
+        if (messageElement) {
+            messageElement.remove(); // Remove the message element from the DOM
+        }
+    });
 
 </script>
 
 </body>
 </html>
+
