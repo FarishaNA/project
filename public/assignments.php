@@ -17,6 +17,14 @@ $assignments = $assignmentModel->getAssignmentsForClassroom($classroomId);
 $studentId = $_SESSION['user_id'];
 $role = $_SESSION['role'];
 
+// Handle assignment deletion for teachers
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['assignment_id']) && $role === 'teacher') {
+    $assignmentId = intval($_GET['assignment_id']);
+    $assignmentModel->deleteAssignment($assignmentId);
+    header("Location: assignments.php?classroom=$classroomId");
+    exit();
+}
+
 // Handle assignment upload for students
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_assignment'])) {
     $assignmentId = intval($_POST['assignment_id']);
@@ -108,6 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_assignment'])) 
                     <?php elseif ($role === 'teacher'): ?>
                         <!-- For teachers: Link to grade submissions -->
                         <a href="grade_assignment.php?assignment_id=<?php echo $assignment['assignment_id']; ?>">Grade Submissions</a>
+                        <a href="update_assignment.php?assignment_id=<?php echo $assignment['assignment_id']; ?>">Update</a>
+                        <a href="assignments.php?classroom=<?php echo $classroomId; ?>&action=delete&assignment_id=<?php echo $assignment['assignment_id']; ?>" onclick="return confirm('Are you sure you want to delete this assignment?');">Delete</a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>

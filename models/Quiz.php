@@ -140,5 +140,10 @@ class Quiz {
         $result = mysqli_query($this->db, $query);
         return mysqli_fetch_assoc($result);
     }
+
+    public function deleteQuiz($quizId) {
+        $deleteQuizQuery = "DELETE FROM quizzes WHERE quiz_id = $quizId";
+    return mysqli_query($this->db, $deleteQuizQuery);
+    }
 }
 ?>

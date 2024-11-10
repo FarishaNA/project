@@ -14,6 +14,18 @@ $classroom_id = $_SESSION['selected_classroom'];
 $quizCreated = isset($_SESSION['quiz_created']) ? $_SESSION['quiz_created'] : false; // Store quiz creation state in the session
 $quizId = isset($_SESSION['quiz_id']) ? $_SESSION['quiz_id'] : null; // Store quiz ID in session
 
+    // Finalize the quiz submission
+    if (isset($_GET['final_submit'])) {
+        // Clear the session quiz data
+        unset($_SESSION['quiz_created']);
+        unset($_SESSION['quiz_id']);
+        $quizCreated = false;
+        $success = "Quiz created successfully and submitted!";
+
+        header("Location: ../public/view_quizzes.php?classroom=$classroom_id");
+        exit();
+    }
+    
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Create a new quiz
     if (isset($_POST['quiz_title'])) {
@@ -66,17 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Finalize the quiz submission
-    if (isset($_POST['final_submit'])) {
-        // Clear the session quiz data
-        $_SESSION['quiz_created'] = false;
-        $_SESSION['quiz_id'] = null;
-        $quizCreated = false;
-        $success = "Quiz created successfully and submitted!";
-
-        header("Location: ../public/view_quizzes.php?classroom=$classroom_id");
-        exit();
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -88,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script>
         function confirmSubmit() {
             if (confirm("Are you sure there are no more questions to add?")) {
-                window.location.href = "view_quizzes.php"; 
+                window.location.href = "create_quiz.php?final_submit=true"; 
             }
         }
     </script>

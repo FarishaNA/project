@@ -10,12 +10,13 @@ $success = '';
 
 $userModel = new User();
 $user = $userModel->getUserById($user_id);
+
 // Handle form submission for updating details
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['update_details'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $sql = $userModel->updateUser($user_id,$name,$email,NULL);
+        $sql = $userModel->updateUser($user_id, $name, $email, NULL);
     }
 
     if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
@@ -37,6 +38,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error = 'Error uploading file.';
         }
     }
+
+    if (isset($_POST['delete_pic'])) {
+        $default_pic = '../assets/uploads/profiles/default_pic.png';
+        $sql = "UPDATE users SET profile_pic_path = '$default_pic' WHERE user_id = $user_id";
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['profile_pic_path'] = $default_pic;
+            $success = 'Profile picture has been reset to default.';
+        } else {
+            $error = 'Error resetting profile picture: ' . mysqli_error($conn);
+        }
+    }
 }
 ?>
 
@@ -52,13 +64,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
 <div class="profile-container">
-    <div class="profile-pic">
+    <div class="profile-pic-container" onclick="toggleEnlarge()">
         <!-- Default profile picture if none exists -->
-        <img src="<?= $user['profile_pic_path'] ? $user['profile_pic_path'] : '../assets/default_pic.jpg' ?>" alt="Profile Picture" class="round-pic">
-        <label for="profile_pic" class="edit-icon"><i class="fas fa-pencil-alt"></i></label>
-        <form method="POST" enctype="multipart/form-data" class="hide-input">
-            <input type="file" name="profile_pic" id="profile_pic" onchange="this.form.submit();">
-        </form>
+        <img src="<?= $user['profile_pic_path'] ? $user['profile_pic_path'] : '../assets/default_pic.jpg' ?>" alt="Profile Picture" class="round-pic" id="profile-pic">
+        <!-- Edit and Delete buttons (initially hidden) -->
+        <div class="profile-buttons" id="profile-buttons">
+            <label for="profile_pic" class="edit-icon"><i class="fas fa-pencil-alt"></i></label>
+            <form method="POST" enctype="multipart/form-data" class="hide-input">
+                <input type="file" name="profile_pic" id="profile_pic" onchange="this.form.submit();">
+            </form>
+            <form method="POST">
+                <button type="submit" name="delete_pic" class="delete-pic-btn">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </form>
+        </div>
     </div>
 
     <div class="details-container">
@@ -100,11 +120,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
 </div>
 
-
 <script>
 function enableEdit(inputId) {
     document.getElementById(inputId).removeAttribute('readonly');
     document.getElementById(inputId).focus();
+}
+
+function toggleEnlarge() {
+    const profilePic = document.getElementById('profile-pic');
+    const buttons = document.getElementById('profile-buttons');
+    profilePic.classList.toggle('enlarged');
+    buttons.classList.toggle('show-buttons');
 }
 </script>
 

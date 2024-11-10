@@ -64,9 +64,9 @@ class Classroom {
         // Check if the student is already in the classroom
         $query = "SELECT * FROM students WHERE user_id = $studentId AND classroom_id = $classroomId";
         $result = mysqli_query($this->db, $query);
-        
+    
         if (mysqli_num_rows($result) > 0) {
-            return false; // Student is already in the classroom
+            return 'already_joined'; // Student is already in the classroom
         }
     
         // Retrieve the student's username from the users table
@@ -79,11 +79,16 @@ class Classroom {
     
             // Insert the student into the classroom with their name
             $insertQuery = "INSERT INTO students (user_id, classroom_id, name) VALUES ($studentId, $classroomId, '$username')";
-            return mysqli_query($this->db, $insertQuery);
+            if (mysqli_query($this->db, $insertQuery)) {
+                return 'joined'; // Success
+            } else {
+                return 'error'; // Database insertion error
+            }
         } else {
-            return false; // User not found
+            return 'user_not_found'; // User not found
         }
     }
+    
     
     // Retrieve all classrooms for a specific student
     public function getClassroomsForStudent($studentId) {
@@ -167,5 +172,15 @@ class Classroom {
         return null;  // Return null if no classroom is found
     }
     
+    public function getTeacherIdByClassroomId($classroomId) {
+        $query = "SELECT teacher_id FROM classrooms WHERE classroom_id = $classroomId";
+        $result = $this->db->query($query);
+        // Fetch the classroom name from the result
+        if ($row = $result->fetch_assoc()) {
+            return $row['teacher_id'];  // Return the classroom name as a string
+        }
+        
+        return null;
+    }
 }
 ?>

@@ -10,6 +10,21 @@ if (!isset($_SESSION['user_id'])) {
 
 $quiz = new Quiz();
 $classroomId = isset($_SESSION['selected_classroom']) ? intval($_SESSION['selected_classroom']) : 0; 
+
+if (isset($_GET['delete_quiz']) && isset($_SESSION['role']) && $_SESSION['role'] === 'teacher') {
+    $quizId = intval($_GET['delete_quiz']); 
+    $deleteResult = $quiz->deleteQuiz($quizId);
+    if ($deleteResult) {
+        // Successfully deleted, redirect back to the classroom quizzes page
+        header("Location: view_quizzes.php?message=Quiz deleted successfully");
+        exit();
+    } else {
+        // Error deleting quiz
+        header("Location: view_quizzes.php?message=Error deleting quiz");
+        exit();
+    }
+}
+
 $quizzes = $quiz->getQuizForClassroom($classroomId);
 
 ?>
@@ -26,6 +41,10 @@ $quizzes = $quiz->getQuizForClassroom($classroomId);
 <body>
 
     <div class="container">
+
+    <?php if (isset($_GET['message'])): ?>
+        <p><?php echo htmlspecialchars($_GET['message']); ?></p>
+    <?php endif; ?>
         <h1>Your Quizzes</h1>
         <div class="classroom-list">
             <?php if (!empty($quizzes)): ?>
@@ -34,7 +53,12 @@ $quizzes = $quiz->getQuizForClassroom($classroomId);
                         <div class="options">
                             <span class="dot">•••</span>
                             <div class="dropdown">
-                                <a href="../public/quiz.php?quiz_id=<?php echo $q['quiz_id']; ?>">View Quiz</a>
+                                <a href="../public/quiz.php?quiz_id=<?php echo $q['quiz_id']; ?>">View</a>
+
+                                 <!-- Delete Quiz Option for Teachers -->
+                                <?php if ($_SESSION['role'] === "teacher"): ?>
+                                    <a href="view_quizzes.php?delete_quiz=<?php echo $q['quiz_id']; ?>" onclick="return confirm('Are you sure you want to delete this quiz?')">Delete</a>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <!-- Corrected the link to match the quiz_id parameter -->

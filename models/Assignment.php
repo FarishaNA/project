@@ -91,7 +91,20 @@ class  Assignment{
         return mysqli_fetch_assoc($result);
     }
     
-
+    public function updateAssignment($assignmentId, $title, $description, $dueDate) {
+        $query = "UPDATE assignments SET assignment_title = ?, description = ?, due_date = ? WHERE assignment_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("sssi", $title, $description, $dueDate, $assignmentId);
+        return $stmt->execute();
+    }
+   
+    public function deleteAssignment($assignmentId) {
+        $query = "DELETE FROM assignments WHERE assignment_id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $assignmentId);
+        return $stmt->execute();
+    }
+    
 
 }
 ?>

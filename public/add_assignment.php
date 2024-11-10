@@ -15,7 +15,7 @@ $teacherId = $_SESSION['user_id'];
 
 // Redirect if the user is not a teacher
 if ($role !== 'teacher') {
-    header('Location: ../views/assignments.php');
+    header('Location: assignments.php');
     exit();
 }
 
@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_assignment']))
 
         if ($result) {
             $successMessage = "Assignment created successfully!";
+            header("Location: assignments.php?classroom=$classroomId");
+            exit();
         } else {
             $errorMessage = "Error creating assignment!";
         }
